@@ -20,6 +20,10 @@
           "station": "You can find the measuring station name at: https://misto.lun.ua/air"
         }
       }
+    },
+    "error": {
+      "no_stations": "No stations found",
+      "cannot_find_station": "Cannot find station the closest station"
     }
   },
   "options": {
