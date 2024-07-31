@@ -48,7 +48,7 @@
   },
   "device": {
     "lun_misto_air": {
-      "name": "ЛУН Air Станція {station}"
+      "name": "ЛУН Місто Air {station}"
     }
   },
   "entity": {
