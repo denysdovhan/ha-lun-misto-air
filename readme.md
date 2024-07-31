@@ -1,6 +1,7 @@
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua/)
 
-![HA LUN Misto Air Logo](./icons/logo@2x.png)
+![HA LUN Misto Air Logo](./icons/logo@2x.png#gh-light-mode-only)
+![HA LUN Misto Air Logo](./icons/dark_logo@2x.png#gh-dark-mode-only)
 
 # 💨 HA LUN Misto Air
 
