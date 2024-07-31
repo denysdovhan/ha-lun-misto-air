@@ -1,0 +1,130 @@
+{
+  "title": "LUN Misto Air",
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "method": "How do you want to select a measuring station?"
+        }
+      },
+      "map": {
+        "data": {
+          "location": "Select a location to get the closest measuring station."
+        }
+      },
+      "station_name": {
+        "data": {
+          "station": "Measuring station name"
+        },
+        "data_description": {
+          "station": "You can find the measuring station name at: https://misto.lun.ua/air"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "station": "Measuring station name"
+        },
+        "data_description": {
+          "station": "You can find the measuring station name at: https://misto.lun.ua/air"
+        }
+      }
+    }
+  },
+  "selector": {
+    "method": {
+      "options": {
+        "map": "Select nearest station from point on the map",
+        "station_name": "Select station from a list"
+      }
+    }
+  },
+  "device": {
+    "lun_misto_air": {
+      "name": "LUN Air Station {station}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "aqi": {
+        "state_attributes": {
+          "city": {
+            "name": "City"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "updated": {
+            "name": "Last updated"
+          },
+          "latitude": {
+            "name": "Latitude"
+          },
+          "longitude": {
+            "name": "Longitude"
+          }
+        }
+      },
+      "pm1": {
+        "state_attributes": {
+          "city": {
+            "name": "City"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "updated": {
+            "name": "Last updated"
+          },
+          "latitude": {
+            "name": "Latitude"
+          },
+          "longitude": {
+            "name": "Longitude"
+          }
+        }
+      },
+      "pm10": {
+        "state_attributes": {
+          "city": {
+            "name": "City"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "updated": {
+            "name": "Last updated"
+          },
+          "latitude": {
+            "name": "Latitude"
+          },
+          "longitude": {
+            "name": "Longitude"
+          }
+        }
+      },
+      "pm25": {
+        "state_attributes": {
+          "city": {
+            "name": "City"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "updated": {
+            "name": "Last updated"
+          },
+          "latitude": {
+            "name": "Latitude"
+          },
+          "longitude": {
+            "name": "Longitude"
+          }
+        }
+      }
+    }
+  }
+}
