@@ -1,0 +1,7 @@
+{
+  "name": "LUN Misto Air",
+  "homeassistant": "2024.6.0",
+  "render_readme": true,
+  "zip_release": true,
+  "filename": "lun-misto-air.zip"
+}
