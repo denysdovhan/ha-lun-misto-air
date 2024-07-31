@@ -3,6 +3,7 @@
 
 import json
 import sys
+from pathlib import Path
 
 MANIFEST = "custom_components/lun_misto_air/manifest.json"
 
@@ -10,14 +11,15 @@ MANIFEST = "custom_components/lun_misto_air/manifest.json"
 def main(version: str) -> None:
     """Update the version in the manifest file."""
     # Read the manifest file
-    with open(MANIFEST) as file:
+
+    with Path(MANIFEST).open() as file:
         data = json.load(file)
 
     # Update the version
     data["version"] = version.replace("v", "")
 
     # Write the manifest file
-    with open(MANIFEST, "w") as file:
+    with Path(MANIFEST).open("w") as file:
         json.dump(data, file, indent=2)
 
 
