@@ -1,0 +1,134 @@
+{
+  "title": "ЛУН Місто Air",
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "method": "У який спосіб ви хочете додати вимірювальної станцію?"
+        }
+      },
+      "map": {
+        "data": {
+          "location": "Оберіть розташування, щоб знайти найближчу станцію."
+        }
+      },
+      "station_name": {
+        "data": {
+          "station": "Назва вимірювальної станції"
+        },
+        "data_description": {
+          "station": "Ви можете знайти назву вимірювальної станції на https://misto.lun.ua/air"
+        }
+      }
+    },
+    "error": {
+      "no_stations": "Станції не знайдені",
+      "cannot_find_station": "Неможливо знайти найближчу станцію"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "station": "Назва вимірювальної станції"
+        },
+        "data_description": {
+          "station": "Ви можете знайти назву вимірювальної станції на https://misto.lun.ua/air"
+        }
+      }
+    }
+  },
+  "selector": {
+    "method": {
+      "options": {
+        "map": "Обрати станцію за точкою на карті",
+        "station_name": "Обрати станцію зі списку"
+      }
+    }
+  },
+  "device": {
+    "lun_misto_air": {
+      "name": "ЛУН Air Станція {station}"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "aqi": {
+        "state_attributes": {
+          "city": {
+            "name": "Місто"
+          },
+          "station_name": {
+            "name": "Станція"
+          },
+          "updated": {
+            "name": "Востаннє оновлено"
+          },
+          "latitude": {
+            "name": "Широта"
+          },
+          "longitude": {
+            "name": "Довгота"
+          }
+        }
+      },
+      "pm1": {
+        "state_attributes": {
+          "city": {
+            "name": "Місто"
+          },
+          "station_name": {
+            "name": "Станція"
+          },
+          "updated": {
+            "name": "Востаннє оновлено"
+          },
+          "latitude": {
+            "name": "Широта"
+          },
+          "longitude": {
+            "name": "Довгота"
+          }
+        }
+      },
+      "pm10": {
+        "state_attributes": {
+          "city": {
+            "name": "Місто"
+          },
+          "station_name": {
+            "name": "Станція"
+          },
+          "updated": {
+            "name": "Востаннє оновлено"
+          },
+          "latitude": {
+            "name": "Широта"
+          },
+          "longitude": {
+            "name": "Довгота"
+          }
+        }
+      },
+      "pm25": {
+        "state_attributes": {
+          "city": {
+            "name": "Місто"
+          },
+          "station_name": {
+            "name": "Станція"
+          },
+          "updated": {
+            "name": "Востаннє оновлено"
+          },
+          "latitude": {
+            "name": "Широта"
+          },
+          "longitude": {
+            "name": "Довгота"
+          }
+        }
+      }
+    }
+  }
+}
