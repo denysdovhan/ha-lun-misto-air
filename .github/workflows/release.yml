@@ -31,7 +31,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: custom_components/lun_misto_air/lun-misto_air.zip
+          file: custom_components/lun_misto_air/lun-misto-air.zip
           asset_name: lun-misto-air.zip
           tag: ${{ github.ref }}
           overwrite: true

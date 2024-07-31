@@ -53,7 +53,7 @@ You can select measuring station by choosing the point on the map. The integrati
 
 <img width="388" alt="image" src="https://github.com/user-attachments/assets/08d97907-e656-4cff-9eb1-577552a6c1e0">
 
-You can also find your station on [LUN Misto website][lun-misto]. Select the stations with the same name in the list:
+You can also find your station on [LUN Misto website][lun-misto-air]. Select the stations with the same name in the list:
 
 <img width="452" alt="image" src="https://github.com/user-attachments/assets/5a7acc0c-2c4e-4e09-84ad-4756e287b7a9">
 
@@ -96,5 +96,3 @@ MIT © [Denys Dovhan][denysdovhan]
 [denysdovhan]: https://github.com/denysdovhan
 [hasc-install-url]: https://my.home-assistant.io/redirect/hacs_repository/?owner=denysdovhan&repository=ha-lun-misto-air&category=integration
 [hacs-install-image]: https://my.home-assistant.io/badges/hacs_repository.svg
-[add-translation]: https://github.com/denysdovhan/ha-lun-misto-air/blob/master/contributing.md#how-to-add-translation
-[calendar-card]: https://www.home-assistant.io/dashboards/calendar/
