@@ -6,6 +6,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from homeassistant.const import Platform
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import LUNMistoAirApi
 from .coordinator import LUNMistoAirCoordinator
@@ -23,7 +24,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up a new entry."""
     LOGGER.debug("Entry data: %s", entry.data)
 
-    api = LUNMistoAirApi()
+    api = LUNMistoAirApi(session=async_get_clientsession(hass))
     coordinator = LUNMistoAirCoordinator(hass, api, entry)
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = coordinator

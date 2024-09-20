@@ -17,6 +17,7 @@ from homeassistant.const import (
     CONF_METHOD,
 )
 from homeassistant.core import callback
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import (
     LocationSelector,
     SelectOptionDict,
@@ -58,7 +59,7 @@ class LUNMistoAirOptionsFlow(OptionsFlow):
     def __init__(self, config_entry: ConfigEntry) -> None:
         """Initialize options flow."""
         self.config_entry = config_entry
-        self.api = LUNMistoAirApi()
+        self.api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
 
     async def async_step_init(self, user_input: dict | None = None) -> ConfigFlowResult:
         """Handle the station flow."""
@@ -77,9 +78,7 @@ class LUNMistoAirOptionsFlow(OptionsFlow):
                 },
             )
 
-        stations = await self.hass.async_add_executor_job(
-            self.api.get_all_stations,
-        )
+        stations = await self.api.get_all_stations()
 
         return self.async_show_form(
             step_id="init",
@@ -106,7 +105,7 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         """Initialize config flow."""
-        self.api = LUNMistoAirApi()
+        self.api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
         self.data: dict[str, Any] = {}
 
     @staticmethod
@@ -148,10 +147,7 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             LOGGER.debug("User data: %s", user_input)
 
-            stations = await self.hass.async_add_executor_job(
-                self.api.get_all_stations,
-            )
-
+            stations = await self.api.get_all_stations()
             if len(stations) == 0:
                 errors["base"] = "no_stations"
 
@@ -209,9 +205,7 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
                 },
             )
 
-        stations = await self.hass.async_add_executor_job(
-            self.api.get_all_stations,
-        )
+        stations = await self.api.get_all_stations()
 
         return self.async_show_form(
             step_id=STEP_STATION_NAME,
