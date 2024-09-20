@@ -1,9 +1,11 @@
-"""API for LUN Misto Air."""
+"""Asynchronous API for LUN Misto Air."""
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any, Self
 
-import requests
+from aiohttp import ClientError, ClientSession, ClientTimeout
 
 
 class LUNMistoAirError(Exception):
@@ -23,7 +25,7 @@ class LUNMistoAirStationNotFoundError(LUNMistoAirError):
 
 
 class LUNMistoAirCityNotFoundError(LUNMistoAirError):
-    """Raised for station errors."""
+    """Raised when a city is not found."""
 
 
 @dataclass(slots=True)
@@ -41,7 +43,7 @@ class LUNMistoAirStation:
     updated: str
 
     @classmethod
-    def from_dict(cls: type[Self], data: dict) -> Self:
+    def from_dict(cls: type[Self], data: dict[str, Any]) -> Self:
         """Initialize from a dict."""
         return cls(
             name=data["name"],
@@ -57,48 +59,66 @@ class LUNMistoAirStation:
 
 
 class LUNMistoAirApi:
-    """API for LUN Misto Air."""
+    """Asynchronous API for LUN Misto Air."""
 
     base_url = "https://misto.lun.ua/api/v1/air/stations"
-    timeout = 60
 
-    def _request(self, url: str) -> list[dict[str, Any]]:
-        """Private method to handle HTTP requests."""
+    def __init__(
+        self,
+        session: ClientSession | None = None,
+        timeout: int = 60,
+    ) -> None:
+        """Initialize the API."""
+        self.session = session or ClientSession()
+        self.close_session = session is None
+        self.timeout = ClientTimeout(total=timeout)
+
+    async def close(self) -> None:
+        """Close the client session if we created it."""
+        if self.close_session and not self.session.closed:
+            await self.session.close()
+
+    async def _request(self, url: str) -> Any:
+        """Make an asynchronous HTTP request."""
         try:
-            response = requests.get(url, timeout=self.timeout)
-            response.raise_for_status()  # Raise an error for bad status codes
-            return response.json()  # Return JSON data
-        except requests.exceptions.HTTPError as http_err:
-            msg = f"HTTP error occurred: {http_err}"
-            raise LUNMistoAirResponseError(msg) from http_err
-        except requests.exceptions.Timeout as timeout_err:
-            msg = f"Request timed out: {timeout_err}"
-            raise LUNMistoAirConnectionError(msg) from timeout_err
-        except requests.exceptions.RequestException as req_err:
-            msg = f"Request error occurred: {req_err}"
-            raise LUNMistoAirConnectionError(msg) from req_err
+            async with self.session.get(url, timeout=self.timeout) as response:
+                http_ok = 200
+                if response.status != http_ok:
+                    text = await response.text()
+                    msg = f"HTTP error {response.status}: {text}"
+                    raise LUNMistoAirResponseError(msg)  # noqa: TRY301
+                return await response.json()
+        except TimeoutError as err:
+            msg = "Request timed out"
+            raise LUNMistoAirConnectionError(msg) from err
+        except ClientError as err:
+            msg = f"Connection error: {err}"
+            raise LUNMistoAirConnectionError(msg) from err
         except Exception as err:
-            msg = f"An unexpected error occurred: {err}"
+            msg = f"Unexpected error: {err}"
             raise LUNMistoAirError(msg) from err
 
-    def get_all_stations(self) -> list[LUNMistoAirStation]:
+    async def get_all_stations(self) -> list[LUNMistoAirStation]:
         """Fetch and return data for all stations."""
-        if data := self._request(self.base_url):
-            return [LUNMistoAirStation.from_dict(station) for station in data]
-        return []
+        data = await self._request(self.base_url)
+        return [LUNMistoAirStation.from_dict(station) for station in data]
 
-    def get_by_station_name(self, station_name: str) -> LUNMistoAirStation:
+    async def get_station_by_name(self, station_name: str) -> LUNMistoAirStation:
         """Fetch and return data for a specific station by its name."""
-        if stations := self.get_all_stations():
-            for station in stations:
-                if station.name == station_name:
-                    return station
-        raise LUNMistoAirStationNotFoundError
+        stations = await self.get_all_stations()
+        for station in stations:
+            if station.name == station_name:
+                return station
+        msg = f"Station with name '{station_name}' not found."
+        raise LUNMistoAirStationNotFoundError(msg)
 
-    def get_by_city(self, city: str) -> list[LUNMistoAirStation]:
+    async def get_stations_by_city(self, city: str) -> list[LUNMistoAirStation]:
         """Fetch and return data for all stations in a specific city."""
-        if stations := self.get_all_stations():
-            return [
-                station for station in stations if station.city.lower() == city.lower()
-            ]
-        raise LUNMistoAirCityNotFoundError
+        stations = await self.get_all_stations()
+        matching_stations = [
+            station for station in stations if station.city.lower() == city.lower()
+        ]
+        if not matching_stations:
+            msg = f"No stations found in city '{city}'."
+            raise LUNMistoAirCityNotFoundError(msg)
+        return matching_stations
