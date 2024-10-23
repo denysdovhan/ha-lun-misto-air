@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from homeassistant.util import location
 from typing import Any, Self
 
 from aiohttp import ClientError, ClientSession, ClientTimeout
+
+from .const import CLOSEST_STATION
 
 
 class LUNMistoAirError(Exception):
@@ -103,12 +106,24 @@ class LUNMistoAirApi:
         data = await self._request(self.base_url)
         return [LUNMistoAirStation.from_dict(station) for station in data]
 
-    async def get_station_by_name(self, station_name: str) -> LUNMistoAirStation:
+    async def get_station_by_name(self, station_name: str, latitude, longitude: float) -> LUNMistoAirStation:
         """Fetch and return data for a specific station by its name."""
         stations = await self.get_all_stations()
-        for station in stations:
-            if station.name == station_name:
-                return station
+        if station_name == CLOSEST_STATION:
+            closest_station = min(
+                stations,
+                key=lambda station: distance_to_station(
+                    latitude,
+                    longitude,
+                    station,
+                ),
+            )
+            if closest_station:
+                return closest_station
+        else:
+            for station in stations:
+                if station.name == station_name:
+                    return station
         msg = f"Station with name '{station_name}' not found."
         raise LUNMistoAirStationNotFoundError(msg)
 
@@ -122,3 +137,9 @@ class LUNMistoAirApi:
             msg = f"No stations found in city '{city}'."
             raise LUNMistoAirCityNotFoundError(msg)
         return matching_stations
+
+
+def distance_to_station(lat: float, lon: float, station: LUNMistoAirStation) -> float:
+    """Return the distance to a station or infinity if the distance is None."""
+    distance = location.distance(lat, lon, station.latitude, station.longitude)
+    return distance if distance is not None else float("inf")

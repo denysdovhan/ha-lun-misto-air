@@ -44,7 +44,11 @@ class LUNMistoAirCoordinator(DataUpdateCoordinator[LUNMistoAirStation]):
 
     async def _async_update_data(self) -> LUNMistoAirStation:
         try:
-            return await self._api.get_station_by_name(self.station_name)
+            return await self._api.get_station_by_name(
+                self.station_name,
+                self.hass.config.latitude,
+                self.hass.config.longitude,
+            )
         except LUNMistoAirStationNotFoundError as exc:
             msg = f"Station '{self.station_name}' not found"
             raise UpdateFailed(msg) from exc

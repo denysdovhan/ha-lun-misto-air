@@ -1,11 +1,13 @@
 {
   "domain": "lun_misto_air",
   "name": "LUN Misto Air",
-  "codeowners": ["@denysdovhan"],
+  "codeowners": [
+    "@denysdovhan"
+  ],
   "config_flow": true,
   "documentation": "https://github.com/denysdovhan/ha-lun-misto-air",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/denysdovhan/ha-lun-misto-air",
   "requirements": [],
-  "version": "0.0.0-unreleased"
+  "version": "0.2.1"
 }
