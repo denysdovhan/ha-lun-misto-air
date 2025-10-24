@@ -6,6 +6,7 @@ import logging
 from types import MappingProxyType
 from typing import TYPE_CHECKING
 
+from homeassistant.config_entries import ConfigSubentry
 from homeassistant.const import Platform
 from homeassistant.helpers import (
     device_registry as dr,
@@ -77,8 +78,6 @@ async def async_update_entry(
 
 async def async_migrate_integration(hass: HomeAssistant) -> None:
     """Migrate integration entry structure to subentries."""
-    from homeassistant.config_entries import ConfigSubentry
-
     entries = hass.config_entries.async_entries(DOMAIN)
 
     # Check if we have any VERSION 1 entries to migrate
