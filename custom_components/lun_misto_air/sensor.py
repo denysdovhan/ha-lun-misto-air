@@ -14,6 +14,9 @@ from homeassistant.const import (
     ATTR_LATITUDE,
     ATTR_LONGITUDE,
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+    PERCENTAGE,
+    UnitOfPressure,
+    UnitOfTemperature,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -73,6 +76,33 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
         value_fn=lambda station: station.avg_pm10,
         available_fn=lambda station: station.avg_pm10 is not None,
+    ),
+    LUNMistoAirSensorDescription(
+        key="temperature",
+        translation_key="temperature",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        value_fn=lambda station: station.temperature,
+    ),
+    LUNMistoAirSensorDescription(
+        key="humidity",
+        translation_key="humidity",
+        device_class=SensorDeviceClass.HUMIDITY,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=0,
+        native_unit_of_measurement=PERCENTAGE,
+        value_fn=lambda station: station.humidity,
+    ),
+    LUNMistoAirSensorDescription(
+        key="pressure",
+        translation_key="pressure",
+        device_class=SensorDeviceClass.PRESSURE,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        native_unit_of_measurement=UnitOfPressure.HPA,
+        value_fn=lambda station: station.pressure / 100,
     ),
 )
 

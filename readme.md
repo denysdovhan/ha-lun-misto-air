@@ -15,7 +15,7 @@
 
 > An integration for air quality monitoring by [LUN Misto][lun-misto].
 
-This integration for [Home Assistant][home-assistant] provides information about air quality metrics by [LUN Misto][lun-misto]: Air Quality Index (AQI), PM2.5, PM10, PM1.
+This integration for [Home Assistant][home-assistant] provides information about air quality metrics by [LUN Misto][lun-misto]: Air Quality Index (AQI), PM2.5, PM10, PM1, temperature, humidity and pressure.
 
 > [!NOTE]
 > This is not affiliated with [LUN][lun-misto] in any way. This integration is developed by an individual. Information may vary from their official website.

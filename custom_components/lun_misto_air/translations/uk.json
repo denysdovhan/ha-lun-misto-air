@@ -133,6 +133,33 @@
             "name": "Довгота"
           }
         }
+      },
+      "temperature": {
+        "state_attributes": {
+          "city": { "name": "Місто" },
+          "station_name": { "name": "Станція" },
+          "updated": { "name": "Востаннє оновлено" },
+          "latitude": { "name": "Широта" },
+          "longitude": { "name": "Довгота" }
+        }
+      },
+      "humidity": {
+        "state_attributes": {
+          "city": { "name": "Місто" },
+          "station_name": { "name": "Станція" },
+          "updated": { "name": "Востаннє оновлено" },
+          "latitude": { "name": "Широта" },
+          "longitude": { "name": "Довгота" }
+        }
+      },
+      "pressure": {
+        "state_attributes": {
+          "city": { "name": "Місто" },
+          "station_name": { "name": "Станція" },
+          "updated": { "name": "Востаннє оновлено" },
+          "latitude": { "name": "Широта" },
+          "longitude": { "name": "Довгота" }
+        }
       }
     }
   }

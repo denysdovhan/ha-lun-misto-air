@@ -41,6 +41,9 @@ class LUNMistoAirStation:
     avg_pm25: float
     avg_pm100: float
     updated: str
+    temperature: float
+    humidity: float
+    pressure: float
 
     @classmethod
     def from_dict(cls: type[Self], data: dict[str, Any]) -> Self:
@@ -55,6 +58,9 @@ class LUNMistoAirStation:
             avg_pm25=data["avgPm25"],
             avg_pm100=data["avgPm100"],
             updated=data["updated"],
+            temperature=data["temperature"],
+            humidity=data["humidity"],
+            pressure=data["pressure"],
         )
 
 

@@ -133,6 +133,33 @@
             "name": "Longitude"
           }
         }
+      },
+      "temperature": {
+        "state_attributes": {
+          "city": { "name": "City" },
+          "station_name": { "name": "Station" },
+          "updated": { "name": "Last updated" },
+          "latitude": { "name": "Latitude" },
+          "longitude": { "name": "Longitude" }
+        }
+      },
+      "humidity": {
+        "state_attributes": {
+          "city": { "name": "City" },
+          "station_name": { "name": "Station" },
+          "updated": { "name": "Last updated" },
+          "latitude": { "name": "Latitude" },
+          "longitude": { "name": "Longitude" }
+        }
+      },
+      "pressure": {
+        "state_attributes": {
+          "city": { "name": "City" },
+          "station_name": { "name": "Station" },
+          "updated": { "name": "Last updated" },
+          "latitude": { "name": "Latitude" },
+          "longitude": { "name": "Longitude" }
+        }
       }
     }
   }
