@@ -1,6 +1,6 @@
 {
   "name": "ha-lun-misto-air",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12-bullseye",
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
   "postCreateCommand": "scripts/setup",
   "forwardPorts": [8123],
   "portsAttributes": {
@@ -20,13 +20,20 @@
         "tamasfe.even-better-toml"
       ],
       "settings": {
-        "python.pythonPath": "/usr/bin/python3",
+        "editor.formatOnSave": true,
+        "python.analysis.typeCheckingMode": "basic",
+        "python.analysis.autoImportCompletions": true,
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
         "[python]": {
-          "editor.formatOnSave": true,
           "editor.defaultFormatter": "charliermarsh.ruff"
         }
       }
     }
   },
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "features": {
+    "ghcr.io/devcontainers-extra/features/apt-packages:1": {
+      "packages": "ffmpeg,libturbojpeg0,libpcap-dev"
+    }
+  }
 }

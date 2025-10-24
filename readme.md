@@ -17,7 +17,8 @@
 
 This integration for [Home Assistant][home-assistant] provides information about air quality metrics by [LUN Misto][lun-misto]: Air Quality Index (AQI), PM2.5, PM10, PM1.
 
-**💡 Note:** This is not affiliated with [LUN][lun-misto] in any way. This integration is developed by an individual. Information may vary from their official website.
+> [!NOTE]
+> This is not affiliated with [LUN][lun-misto] in any way. This integration is developed by an individual. Information may vary from their official website.
 
 ## Sponsorship
 
@@ -78,7 +79,7 @@ MIT © [Denys Dovhan][denysdovhan]
 [gh-downloads-url]: https://github.com/denysdovhan/ha-lun-misto-air/releases
 [gh-downloads-image]: https://img.shields.io/github/downloads/denysdovhan/ha-lun-misto-air/total?style=flat-square
 [hacs-url]: https://github.com/hacs/integration
-[hacs-image]: https://img.shields.io/badge/hacs-default-orange.svg?style=flat-square
+[hacs-image]: https://img.shields.io/badge/hacs-custom-orange.svg?style=flat-square
 [gh-sponsors-url]: https://github.com/sponsors/denysdovhan
 [gh-sponsors-image]: https://img.shields.io/github/sponsors/denysdovhan?style=flat-square
 [patreon-url]: https://patreon.com/denysdovhan
