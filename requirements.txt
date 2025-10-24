@@ -1,4 +1,4 @@
 homeassistant==2024.12.5
 pip>=21.0,<24.2
 pre-commit>=3.7.1
-ruff==0.6.8
+ruff==0.8.4
