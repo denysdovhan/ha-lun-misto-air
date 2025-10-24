@@ -24,21 +24,14 @@ from homeassistant.helpers.selector import (
     SelectSelector,
     SelectSelectorConfig,
 )
-from homeassistant.util import location
 
-from .api import LUNMistoAirApi, LUNMistoAirStation
-from .const import CONF_STATION, DOMAIN, NAME
+from .api import LUNMistoAirApi, LUNMistoAirStation, distance_to_station
+from .const import CONF_STATION, DOMAIN, NAME, CLOSEST_STATION
 
 LOGGER = logging.getLogger(__name__)
 
 STEP_MAP = "map"
 STEP_STATION_NAME = "station_name"
-
-
-def distance_to_station(lat: float, lon: float, station: LUNMistoAirStation) -> float:
-    """Return the distance to a station or infinity if the distance is None."""
-    distance = location.distance(lat, lon, station.latitude, station.longitude)
-    return distance if distance is not None else float("inf")
 
 
 def get_stations_options(stations: list[LUNMistoAirStation]) -> list[SelectOptionDict]:
@@ -168,7 +161,7 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
                 return self.async_create_entry(
                     title=NAME,
                     data={
-                        CONF_STATION: closest_station.name,
+                        CONF_STATION: CLOSEST_STATION,
                     },
                 )
 
