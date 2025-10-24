@@ -52,15 +52,15 @@ This integration is configurable via UI. On **Devices and Services** page, click
 
 You can select measuring station by choosing the point on the map. The integration will automatically fetch the data from the nearest station.
 
-<img width="388" alt="image" src="https://github.com/user-attachments/assets/08d97907-e656-4cff-9eb1-577552a6c1e0">
+<img width="388" alt="map" src="https://github.com/user-attachments/assets/08d97907-e656-4cff-9eb1-577552a6c1e0">
 
 You can also find your station on [LUN Misto website][lun-misto-air]. Select the stations with the same name in the list:
 
-<img width="452" alt="image" src="https://github.com/user-attachments/assets/5a7acc0c-2c4e-4e09-84ad-4756e287b7a9">
+<img width="452" alt="number" src="https://github.com/user-attachments/assets/5a7acc0c-2c4e-4e09-84ad-4756e287b7a9">
 
 The integration will create a sensor for each of the available metrics:
 
-<img width="338" alt="image" src="https://github.com/user-attachments/assets/d51ae379-db91-4853-99c0-2b87186fb7a8">
+<img width="329" alt="metrics" src="https://github.com/user-attachments/assets/610e3d71-f1ac-4dde-bd4c-328fd47d0aa9" />
 
 ## Development
 
