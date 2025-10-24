@@ -16,7 +16,7 @@ from homeassistant.const import (
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
 from .api import LUNMistoAirStation
@@ -80,15 +80,21 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
 async def async_setup_entry(
     hass: HomeAssistant,  # noqa: ARG001
     config_entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Lun Misto Air sensor platform."""
-    LOGGER.debug("Setup new sensor entry: %s", config_entry)
-    coordinator: LUNMistoAirCoordinator = config_entry.runtime_data
-    async_add_entities(
-        [LUNMistoAirSensor(coordinator, description) for description in SENSOR_TYPES],
-        update_before_add=True,
-    )
+    # Get all coordinators from runtime_data (one per subentry)
+    coordinators: dict[str, LUNMistoAirCoordinator] = config_entry.runtime_data
+
+    for subentry_id, coordinator in coordinators.items():
+        async_add_entities(
+            [
+                LUNMistoAirSensor(coordinator, description)
+                for description in SENSOR_TYPES
+            ],
+            update_before_add=True,
+            config_subentry_id=subentry_id,
+        )
 
 
 class LUNMistoAirSensor(LUNMistoAirEntity, SensorEntity):
@@ -105,9 +111,7 @@ class LUNMistoAirSensor(LUNMistoAirEntity, SensorEntity):
         super().__init__(coordinator, description)
         self.entity_description = description
         self._attr_unique_id = (
-            f"{coordinator.config_entry.entry_id}-"
-            f"{coordinator.station_name}-"
-            f"{description.key}"
+            f"{coordinator.config_subentry.subentry_id}-{description.key}"
         )
 
     @property
