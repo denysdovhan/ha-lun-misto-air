@@ -8,13 +8,13 @@ from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
     ConfigFlowResult,
-    OptionsFlow,
+    ConfigSubentryFlow,
+    SubentryFlowResult,
 )
 from homeassistant.const import (
     CONF_LATITUDE,
     CONF_LOCATION,
     CONF_LONGITUDE,
-    CONF_METHOD,
 )
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -27,7 +27,7 @@ from homeassistant.helpers.selector import (
 from homeassistant.util import location
 
 from .api import LUNMistoAirApi, LUNMistoAirStation
-from .const import CONF_STATION, DOMAIN, NAME
+from .const import CONF_STATION_NAME, DOMAIN, NAME, SUBENTRY_TYPE_STATION
 
 LOGGER = logging.getLogger(__name__)
 
@@ -53,99 +53,60 @@ def get_stations_options(stations: list[LUNMistoAirStation]) -> list[SelectOptio
     ]
 
 
-class LUNMistoAirOptionsFlow(OptionsFlow):
-    """Handle options flow for the LUN Misto Air integration."""
-
-    def __init__(self, config_entry: ConfigEntry) -> None:
-        """Initialize options flow."""
-        self.config_entry = config_entry
-
-    async def async_step_init(self, user_input: dict | None = None) -> ConfigFlowResult:
-        """Handle the station flow."""
-        if user_input is not None:
-            LOGGER.debug("Updating options: %s", user_input)
-            self.hass.config_entries.async_update_entry(
-                self.config_entry,
-                data={
-                    CONF_STATION: user_input[CONF_STATION],
-                },
-            )
-            return self.async_create_entry(
-                title=self.config_entry.title,
-                data={
-                    CONF_STATION: user_input[CONF_STATION],
-                },
-            )
-
-        api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
-        stations = await api.get_all_stations()
-
-        return self.async_show_form(
-            step_id="init",
-            data_schema=vol.Schema(
-                {
-                    vol.Required(
-                        CONF_STATION,
-                        default=self.config_entry.data[CONF_STATION],
-                    ): SelectSelector(
-                        SelectSelectorConfig(
-                            options=get_stations_options(stations),
-                            translation_key="city",
-                        ),
-                    ),
-                },
-            ),
-        )
-
-
 class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
     """Config flow for LUN Misto Air integration."""
 
-    VERSION = 1
+    VERSION = 2
 
     def __init__(self) -> None:
         """Initialize config flow."""
         self.data: dict[str, Any] = {}
 
-    @staticmethod
+    @classmethod
     @callback
-    def async_get_options_flow(config_entry: ConfigEntry) -> LUNMistoAirOptionsFlow:
-        """Get the options flow."""
-        return LUNMistoAirOptionsFlow(config_entry)
+    def async_get_supported_subentry_types(
+        cls: type["LUNMistoAirConfigFlow"],
+        config_entry: ConfigEntry,  # noqa: ARG003
+    ) -> dict[str, type[ConfigSubentryFlow]]:
+        """Return subentries supported by this handler."""
+        return {SUBENTRY_TYPE_STATION: StationFlowHandler}
 
     async def async_step_user(
         self,
-        user_input: dict[str, Any] | None = None,
+        user_input: dict[str, Any] | None = None,  # noqa: ARG002
     ) -> ConfigFlowResult:
         """Handle a flow initialized by the user."""
-        if user_input is not None:
-            if user_input[CONF_METHOD] == STEP_MAP:
-                return await self.async_step_map()
-            return await self.async_step_station_name()
+        # Check if already configured
+        if self._async_current_entries():
+            return self.async_abort(reason="already_configured")
 
-        return self.async_show_form(
+        # Create the main entry without station data
+        return self.async_create_entry(
+            title=NAME,
+            data={},
+        )
+
+
+class StationFlowHandler(ConfigSubentryFlow):
+    """Handle subentry flow for adding stations."""
+
+    async def async_step_user(
+        self,
+        user_input: dict[str, Any] | None = None,  # noqa: ARG002
+    ) -> SubentryFlowResult:
+        """User flow to create a sensor subentry."""
+        return self.async_show_menu(
             step_id="user",
-            data_schema=vol.Schema(
-                {
-                    vol.Required(CONF_METHOD): SelectSelector(
-                        SelectSelectorConfig(
-                            options=[STEP_MAP, STEP_STATION_NAME],
-                            translation_key="method",
-                        ),
-                    ),
-                },
-            ),
+            menu_options=["map", "station_name"],
         )
 
     async def async_step_map(
         self,
         user_input: dict[str, Any] | None = None,
-    ) -> ConfigFlowResult:
+    ) -> SubentryFlowResult:
         """Handle a flow initialized by the user."""
         errors: dict[str, str] = {}
         if user_input is not None:
-            LOGGER.debug("User data: %s", user_input)
-
             api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
             stations = await api.get_all_stations()
             if len(stations) == 0:
@@ -160,17 +121,11 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
                     station,
                 ),
             )
-            LOGGER.debug("Closest station: %s", closest_station)
 
             if not closest_station:
                 errors["base"] = "cannot_find_station"
             if closest_station:
-                return self.async_create_entry(
-                    title=NAME,
-                    data={
-                        CONF_STATION: closest_station.name,
-                    },
-                )
+                return await self._async_create_entry(closest_station)
 
         return self.async_show_form(
             step_id=STEP_MAP,
@@ -195,15 +150,12 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
     async def async_step_station_name(
         self,
         user_input: dict[str, Any] | None = None,
-    ) -> ConfigFlowResult:
+    ) -> SubentryFlowResult:
         """Handle the station name step."""
         if user_input is not None:
-            return self.async_create_entry(
-                title=NAME,
-                data={
-                    CONF_STATION: user_input[CONF_STATION],
-                },
-            )
+            api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
+            station = await api.get_station_by_name(user_input[CONF_STATION_NAME])
+            return await self._async_create_entry(station)
 
         api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
         stations = await api.get_all_stations()
@@ -213,7 +165,7 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema(
                 {
                     vol.Required(
-                        CONF_STATION,
+                        CONF_STATION_NAME,
                     ): SelectSelector(
                         SelectSelectorConfig(
                             options=get_stations_options(stations),
@@ -222,4 +174,24 @@ class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
                     ),
                 },
             ),
+        )
+
+    async def _async_create_entry(
+        self,
+        station: LUNMistoAirStation,
+    ) -> SubentryFlowResult:
+        """Create a subentry for a station."""
+        station_name = station.name
+        # Check if this station is already configured
+        for entry in self.hass.config_entries.async_entries(DOMAIN):
+            for subentry in entry.subentries.values():
+                if subentry.unique_id == station_name:
+                    return self.async_abort(reason="already_configured")
+
+        return self.async_create_entry(
+            title=f"{station.city.capitalize()} ({station.name})",
+            data={
+                CONF_STATION_NAME: station_name,
+            },
+            unique_id=station_name,
         )

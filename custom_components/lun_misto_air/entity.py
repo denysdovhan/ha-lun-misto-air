@@ -3,7 +3,7 @@
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CONF_STATION, DOMAIN
+from .const import DOMAIN
 from .coordinator import LUNMistoAirCoordinator
 
 
@@ -15,10 +15,16 @@ class LUNMistoAirEntity(CoordinatorEntity[LUNMistoAirCoordinator]):
     @property
     def device_info(self) -> DeviceInfo:
         """Return device information about this entity."""
+        city = self.coordinator.data.city.capitalize()
+        station = self.coordinator.station_name
         return DeviceInfo(
-            translation_key="lun_misto_air",
-            translation_placeholders={CONF_STATION: str(self.coordinator.station_name)},
-            identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
+            identifiers={(DOMAIN, station)},
+            name=f"{city} ({station})",
             manufacturer="LUN",
             entry_type=DeviceEntryType.SERVICE,
+            translation_key="lun_misto_air",
+            translation_placeholders={
+                "city": city,
+                "station_name": station,
+            },
         )

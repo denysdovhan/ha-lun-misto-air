@@ -1,4 +1,4 @@
-"""Constants for the Yasno Outages integration."""
+"""Constants for the LUN Misto Air integration."""
 
 from typing import Final
 
@@ -6,7 +6,9 @@ DOMAIN: Final = "lun_misto_air"
 NAME: Final = "LUN Misto Air"
 
 # Configuration option
-CONF_STATION: Final = "station"
+CONF_STATION_NAME: Final = "station_name"
+# Subentry types
+SUBENTRY_TYPE_STATION: Final = "station"
 
 # Attributes
 ATTR_STATION_NAME: Final = "station_name"

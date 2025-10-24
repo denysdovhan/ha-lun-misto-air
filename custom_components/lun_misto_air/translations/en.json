@@ -3,52 +3,57 @@
   "config": {
     "step": {
       "user": {
-        "data": {
-          "method": "How do you want to select a measuring station?"
-        }
-      },
-      "map": {
-        "data": {
-          "location": "Select a location to get the closest measuring station."
-        }
-      },
-      "station_name": {
-        "data": {
-          "station": "Measuring station name"
-        },
-        "data_description": {
-          "station": "You can find the measuring station name at: https://misto.lun.ua/air"
-        }
+        "description": "Set up LUN Misto Air to integrate air quality monitoring stations."
       }
     },
-    "error": {
-      "no_stations": "No stations found",
-      "cannot_find_station": "Cannot find station the closest station"
+    "abort": {
+      "already_configured": "Only one LUN Misto Air integration can be configured."
     }
   },
-  "options": {
-    "step": {
-      "init": {
-        "data": {
-          "station": "Measuring station name"
+  "config_subentries": {
+    "station": {
+      "step": {
+        "user": {
+          "title": "Add measuring station",
+          "description": "How do you want to select a measuring station?",
+          "menu_options": {
+            "map": "Select nearest station from point on the map",
+            "station_name": "Select station from a list"
+          }
         },
-        "data_description": {
-          "station": "You can find the measuring station name at: https://misto.lun.ua/air"
+        "map": {
+          "data": {
+            "location": "Location"
+          },
+          "data_description": {
+            "location": "Select a location to get the closest measuring station"
+          }
+        },
+        "station_name": {
+          "data": {
+            "station_name": "Measuring station name"
+          },
+          "data_description": {
+            "station_name": "You can find the measuring station name at: https://misto.lun.ua/air"
+          }
         }
-      }
-    }
-  },
-  "selector": {
-    "method": {
-      "options": {
-        "map": "Select nearest station from point on the map",
-        "station_name": "Select station from a list"
-      }
+      },
+      "error": {
+        "no_stations": "No stations found",
+        "cannot_find_station": "Cannot find the closest station"
+      },
+      "abort": {
+        "already_configured": "This station is already configured."
+      },
+      "initiate_flow": {
+        "user": "Add measuring station"
+      },
+      "entry_type": "Measuring station"
     }
   },
   "device": {
     "lun_misto_air": {
-      "name": "LUN Misto Air {station}"
+      "name": "LUN Air {city} {station_name}"
     }
   },
   "entity": {

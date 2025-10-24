@@ -3,52 +3,57 @@
   "config": {
     "step": {
       "user": {
-        "data": {
-          "method": "У який спосіб ви хочете додати вимірювальної станцію?"
-        }
-      },
-      "map": {
-        "data": {
-          "location": "Оберіть розташування, щоб знайти найближчу станцію."
-        }
-      },
-      "station_name": {
-        "data": {
-          "station": "Назва вимірювальної станції"
-        },
-        "data_description": {
-          "station": "Ви можете знайти назву вимірювальної станції на https://misto.lun.ua/air"
-        }
+        "description": "Налаштуйте ЛУН Місто Air для інтеграції станцій моніторингу якості повітря."
       }
     },
-    "error": {
-      "no_stations": "Станції не знайдені",
-      "cannot_find_station": "Неможливо знайти найближчу станцію"
+    "abort": {
+      "already_configured": "Можна налаштувати лише одну інтеграцію ЛУН Місто Air."
     }
   },
-  "options": {
-    "step": {
-      "init": {
-        "data": {
-          "station": "Назва вимірювальної станції"
+  "config_subentries": {
+    "station": {
+      "step": {
+        "user": {
+          "title": "Додати вимірювальну станцію",
+          "description": "Як ви бажаєте обрати вимірювальну станцію?",
+          "menu_options": {
+            "map": "Обрати найближчу станцію за точкою на карті",
+            "station_name": "Обрати станцію зі списку"
+          }
         },
-        "data_description": {
-          "station": "Ви можете знайти назву вимірювальної станції на https://misto.lun.ua/air"
+        "map": {
+          "data": {
+            "location": "Розташування"
+          },
+          "data_description": {
+            "location": "Оберіть розташування, щоб знайти найближчу вимірювальну станцію"
+          }
+        },
+        "station_name": {
+          "data": {
+            "station_name": "Назва вимірювальної станції"
+          },
+          "data_description": {
+            "station_name": "Ви можете знайти назву вимірювальної станції на https://misto.lun.ua/air"
+          }
         }
-      }
-    }
-  },
-  "selector": {
-    "method": {
-      "options": {
-        "map": "Обрати станцію за точкою на карті",
-        "station_name": "Обрати станцію зі списку"
-      }
+      },
+      "error": {
+        "no_stations": "Станції не знайдені",
+        "cannot_find_station": "Неможливо знайти найближчу станцію"
+      },
+      "abort": {
+        "already_configured": "Ця станція вже налаштована."
+      },
+      "initiate_flow": {
+        "user": "Додати вимірювальну станцію"
+      },
+      "entry_type": "Вимірювальна станція"
     }
   },
   "device": {
     "lun_misto_air": {
-      "name": "ЛУН Місто Air {station}"
+      "name": "ЛУН Air {city} {station_name}"
     }
   },
   "entity": {
