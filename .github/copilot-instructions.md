@@ -4,19 +4,22 @@ This repository is a Home Assistant custom integration providing air quality dat
 
 ## Architecture
 
-Code lives under `custom_components/lun_misto_air`. Use standard HA integration patterns:
+Code lives under `custom_components/lun_misto_air`. The integration uses Config Entry Subentries:
 
-- `config_flow.py`: collects the station via two paths: pick on a map (LocationSelector -> closest station) or choose from a list (SelectSelector). It creates a `ConfigEntry` with `data[CONF_STATION]`.
-- `__init__.py`: creates `LUNMistoAirApi`, instantiates `LUNMistoAirCoordinator`, calls `async_config_entry_first_refresh()`, stores the coordinator on `entry.runtime_data`, forwards setup to platforms, and wires reload/unload.
-- `coordinator.py`: polls the API every `UPDATE_INTERVAL` minutes (see `const.py`) and returns a `LUNMistoAirStation` model. Errors are surfaced as `UpdateFailed` using exceptions from `api.py`.
-- `sensor.py`: declares sensors via `SENSOR_TYPES` (tuple of `LUNMistoAirSensorDescription`). Each sensor reads values from the coordinator’s `LUNMistoAirStation`. Entities extend `LUNMistoAirEntity` to share device info.
-- `api.py`: is an async client for `https://misto.lun.ua/api/v1/air/stations`, returning `LUNMistoAirStation` (dataclass). Handle failures with `LUNMistoAir*Error` exceptions.
+- `config_flow.py`: The main flow creates an empty container entry. A `ConfigSubentryFlow` named "station" lets users add stations in two ways: pick on a map (LocationSelector → closest station) or choose from a list (SelectSelector). Each station becomes a subentry with `unique_id = station_name` and `data[CONF_STATION_NAME]`.
+- `__init__.py`: Creates `LUNMistoAirApi`, instantiates one `LUNMistoAirCoordinator` per station subentry, calls `async_config_entry_first_refresh()`, stores coordinators on `entry.runtime_data[subentry_id]`, forwards setup to platforms, and wires reload/unload.
+- `coordinator.py`: Polls the API every `UPDATE_INTERVAL` minutes (see `const.py`) and returns a `LUNMistoAirStation` model per subentry. Errors are surfaced as `UpdateFailed` using exceptions from `api.py`.
+- `sensor.py`: Declares sensors via `SENSOR_TYPES` (tuple of `LUNMistoAirSensorDescription`). Each sensor reads values from the coordinator’s `LUNMistoAirStation`. Entities extend `LUNMistoAirEntity` to share device info. Entities are added with the subentry context.
+- `api.py`: Async client for `https://misto.lun.ua/api/v1/air/stations`, returning `LUNMistoAirStation` (dataclass). Handle failures with `LUNMistoAir*Error` exceptions.
 
 ## Key conventions and patterns
 
-- Store the coordinator on `ConfigEntry.runtime_data` and access it in platforms (see `sensor.async_setup_entry`).
-- Build `unique_id` as `f"{entry_id}-{station_name}-{description.key}"` and expose device info via `LUNMistoAirEntity.device_info` with `translation_key` and `translation_placeholders`.
-- Add new sensors by appending to `SENSOR_TYPES` with a `value_fn` and optional `available_fn`, `device_class`, `state_class`, and units. Also add translations under `translations/*.json` using the same `translation_key`.
+- Store coordinators on `ConfigEntry.runtime_data` keyed by subentry id and access them in platforms (see `sensor.async_setup_entry`).
+- Add entities with the subentry context using `async_add_entities(..., config_subentry_id=subentry_id)`; import callback type `AddConfigEntryEntitiesCallback`.
+- Unique IDs: `f"{subentry_id}-{description.key}"` (stable per subentry and sensor type).
+- Device identifiers: `(DOMAIN, station_name)` for the device that groups sensors per physical station.
+- Device info: set `translation_placeholders={"city": city, "station_name": station_name}` in `LUNMistoAirEntity.device_info` so translations can render names consistently.
+- Add new sensors by appending to `SENSOR_TYPES` with a `value_fn` and optional `available_fn`, `device_class`, `state_class`, and units. Also add translations under `translations/*.json` using the same `translation_key` as the description.
 - Keep polling cadence and precision centralized: `UPDATE_INTERVAL`, `SUGGESTED_PRECISION` in `const.py`.
 - Log with module-level `LOGGER`; avoid hard-coded strings visible to users—prefer translation keys.
 
@@ -51,7 +54,9 @@ Coordinator should not rely on API response structure. Instead, transform data i
 ## Translations
 
 - Translations: copy `translations/en.json` to add locales; translate values only where appropriate per HA guidelines.
-- Some legacy docstrings still mention another project; follow current names in code (`LUN Misto Air`).
+- Entities: Use the `translation_key` defined in `SENSOR_TYPES` (e.g., `aqi`, `pm25`, `pm10`, `pm1`).
+- Placeholders: Reference `{city}` and `{station_name}` from `translation_placeholders` supplied by `device_info` when rendering names or descriptions.
+- Add locales by copying `translations/en.json` and translating values per HA guidelines.
 
 ## Notes
 
