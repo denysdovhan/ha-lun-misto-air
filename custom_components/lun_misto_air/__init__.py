@@ -12,20 +12,29 @@ from .api import LUNMistoAirApi
 from .const import SUBENTRY_TYPE_STATION
 from .coordinator import LUNMistoAirCoordinator
 from .data import LUNMistoAirConfigEntry, LUNMistoAirRuntimeData
-from .migrations import async_migrate_integration
+from .migrations import migrate_v1_to_v2, migrate_v2_to_v3
 
 if TYPE_CHECKING:
+    from homeassistant.config_entries import ConfigEntry
     from homeassistant.core import HomeAssistant
-    from homeassistant.helpers.typing import ConfigType
 
 LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:  # noqa: ARG001
-    """Set up LUN Misto Air."""
-    await async_migrate_integration(hass)
+async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Migrate a single config entry."""
+    # If the entry is already up-to-date, nothing to do
+    if entry.version not in (1, 2):
+        return True
+
+    if entry.version == 1:
+        await migrate_v1_to_v2(hass, entry)
+
+    if entry.version == 2:  # noqa: PLR2004
+        await migrate_v2_to_v3(hass, entry)
+
     return True
 
 

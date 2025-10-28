@@ -29,22 +29,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger(__name__)
 
 
-async def async_migrate_integration(hass: HomeAssistant) -> None:
-    """Migrate integration entry structure to subentries."""
-    entries = hass.config_entries.async_entries(DOMAIN)
-
-    # Check if we have any VERSION 1 or VERSION 2 entries to migrate
-    if not any(entry.version in (1, 2) for entry in entries):
-        return
-
-    for entry in entries:
-        if entry.version == 1:
-            await _migrate_v1_to_v2(hass, entry)
-        elif entry.version == 2:  # noqa: PLR2004
-            await _migrate_v2_to_v3(hass, entry)
-
-
-async def _migrate_v1_to_v2(hass: HomeAssistant, entry: ConfigEntry) -> None:
+async def migrate_v1_to_v2(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Migrate VERSION 1 → VERSION 2: Create subentries."""
     entity_registry = er.async_get(hass)
     device_registry = dr.async_get(hass)
@@ -123,7 +108,7 @@ async def _migrate_v1_to_v2(hass: HomeAssistant, entry: ConfigEntry) -> None:
     )
 
 
-async def _migrate_v2_to_v3(hass: HomeAssistant, entry: ConfigEntry) -> None:
+async def migrate_v2_to_v3(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Migrate VERSION 2 → VERSION 3: Add CONF_NAME to subentries."""
     api = LUNMistoAirApi(session=async_get_clientsession(hass))
 
