@@ -9,7 +9,6 @@
 [![GitHub Downloads][gh-downloads-image]][gh-downloads-url]
 [![hacs][hacs-image]][hacs-url]
 [![GitHub Sponsors][gh-sponsors-image]][gh-sponsors-url]
-[![Patreon][patreon-image]][patreon-url]
 [![Buy Me A Coffee][buymeacoffee-image]][buymeacoffee-url]
 [![Twitter][twitter-image]][twitter-url]
 
@@ -26,7 +25,6 @@ Your generosity will help me maintain and develop more projects like this one.
 
 - 💖 [Sponsor on GitHub][gh-sponsors-url]
 - ☕️ [Buy Me A Coffee][buymeacoffee-url]
-- 🤝 [Support on Patreon][patreon-url]
 - Bitcoin: `bc1q7lfx6de8jrqt8mcds974l6nrsguhd6u30c6sg8`
 - Ethereum: `0x6aF39C917359897ae6969Ad682C14110afe1a0a1`
 
@@ -94,8 +92,6 @@ MIT © [Denys Dovhan][denysdovhan]
 [hacs-image]: https://img.shields.io/badge/hacs-custom-orange.svg?style=flat-square
 [gh-sponsors-url]: https://github.com/sponsors/denysdovhan
 [gh-sponsors-image]: https://img.shields.io/github/sponsors/denysdovhan?style=flat-square
-[patreon-url]: https://patreon.com/denysdovhan
-[patreon-image]: https://img.shields.io/badge/support-patreon-F96854.svg?style=flat-square
 [buymeacoffee-url]: https://buymeacoffee.com/denysdovhan
 [buymeacoffee-image]: https://img.shields.io/badge/support-buymeacoffee-222222.svg?style=flat-square
 [twitter-url]: https://twitter.com/denysdovhan
