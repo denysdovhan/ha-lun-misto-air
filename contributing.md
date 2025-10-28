@@ -4,12 +4,11 @@ If you plan to contribute back to this repo, please fork & open a PR.
 
 ## How to add translation
 
-Only native speaker can translate to specific language.
+Only native speaker can translate to specific language. Use this tool for translating:
 
-1. Copy `custom_components/lun_misto_air/translations/en.json` file and name it with appropriate language code.
-1. Translate only keys in this file, not values.
-1. Open a PR.
-1. Find someone to check and approve your PR.
+[**🌐 Translate via Inlang**](https://inlang.com/editor/github.com/denysdovhan/ha-lun-misto-air?ref=badge)
+
+Translation files live in `custom_components/lun_misto_air/translations/` (e.g., `en.json`, `uk.json`).
 
 ## How to run locally
 
