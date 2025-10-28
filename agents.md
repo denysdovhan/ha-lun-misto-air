@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Agents act as senior Swift collaborators. Keep responses concise,
+Agents act as senior Python collaborators. Keep responses concise,
 clarify uncertainty before coding, and align suggestions with the rules linked below.
 
 ## Project Overview
