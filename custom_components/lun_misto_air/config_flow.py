@@ -8,6 +8,7 @@ from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
     ConfigFlowResult,
+    ConfigSubentry,
     ConfigSubentryFlow,
     SubentryFlowResult,
 )
@@ -56,6 +57,22 @@ def get_stations_options(stations: list[LUNMistoAirStation]) -> list[SelectOptio
         )
         for station in stations_by_city
     ]
+
+
+def is_dynamic_station_with_name(subentry: ConfigSubentry, name: str) -> bool:
+    """Check if subentry is a dynamic station with the given name."""
+    return (
+        subentry.data.get(CONF_STATION_TYPE) == STATION_TYPE_DYNAMIC
+        and subentry.data.get(CONF_NAME) == name
+    )
+
+
+def is_static_station_with_name(subentry: ConfigSubentry, station_name: str) -> bool:
+    """Check if subentry is a static station with the given station name."""
+    return (
+        subentry.data.get(CONF_STATION_TYPE) == STATION_TYPE_STATIC
+        and subentry.data.get(CONF_STATION_NAME) == station_name
+    )
 
 
 class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -117,22 +134,18 @@ class StationFlowHandler(ConfigSubentryFlow):
             latitude = user_input[CONF_LOCATION][CONF_LATITUDE]
             longitude = user_input[CONF_LOCATION][CONF_LONGITUDE]
 
-            # Unique ID for dynamic stations: based on coordinates
-            unique_id = f"{name}"
+            # Check if a dynamic station with this name already exists
+            for entry in self.hass.config_entries.async_entries(DOMAIN):
+                for subentry in entry.subentries.values():
+                    if is_dynamic_station_with_name(subentry, name):
+                        return self.async_abort(reason="already_configured")
 
             LOGGER.debug(
-                "Creating dynamic station entry: name=%s, unique_id=%s, lat=%s, lon=%s",
+                "Creating dynamic station entry: name=%s, lat=%s, lon=%s",
                 name,
-                unique_id,
                 latitude,
                 longitude,
             )
-
-            # Check if already configured
-            for entry in self.hass.config_entries.async_entries(DOMAIN):
-                for subentry in entry.subentries.values():
-                    if subentry.unique_id == unique_id:
-                        return self.async_abort(reason="already_configured")
 
             return self.async_create_entry(
                 title=name,
@@ -142,7 +155,6 @@ class StationFlowHandler(ConfigSubentryFlow):
                     CONF_LATITUDE: latitude,
                     CONF_LONGITUDE: longitude,
                 },
-                unique_id=unique_id,
             )
 
         return self.async_show_form(
@@ -170,19 +182,37 @@ class StationFlowHandler(ConfigSubentryFlow):
     ) -> SubentryFlowResult:
         """Handle the station name step."""
         if user_input is not None:
-            # Validate unique custom name across subentries
-            desired_name: str = user_input[CONF_NAME]
+            station_name = user_input[CONF_STATION_NAME]
+            desired_name = user_input[CONF_NAME]
+
+            # Check if static station with this station_name already exists
             for entry in self.hass.config_entries.async_entries(DOMAIN):
                 for subentry in entry.subentries.values():
-                    existing_name = subentry.data.get(CONF_NAME) or subentry.title
-                    if existing_name and existing_name == desired_name:
+                    if is_static_station_with_name(subentry, station_name):
                         return self.async_abort(reason="already_configured")
 
             api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
-            station = await api.get_station_by_name(user_input[CONF_STATION_NAME])
-            return await self._async_create_entry(
-                station,
-                custom_name=desired_name,
+            station = await api.get_station_by_name(station_name)
+
+            # Use custom name if provided, otherwise format default name
+            name = desired_name or STATION_NAME_FORMAT.format(
+                city=station.city.capitalize(),
+                station=station.name,
+            )
+
+            LOGGER.debug(
+                "Creating static station entry: name=%s, station=%s",
+                name,
+                station.name,
+            )
+
+            return self.async_create_entry(
+                title=name,
+                data={
+                    CONF_NAME: name,
+                    CONF_STATION_TYPE: STATION_TYPE_STATIC,
+                    CONF_STATION_NAME: station.name,
+                },
             )
 
         api = LUNMistoAirApi(session=async_get_clientsession(self.hass))
@@ -203,42 +233,4 @@ class StationFlowHandler(ConfigSubentryFlow):
                     ),
                 },
             ),
-        )
-
-    async def _async_create_entry(
-        self,
-        station: LUNMistoAirStation,
-        *,
-        custom_name: str | None = None,
-    ) -> SubentryFlowResult:
-        """Create a subentry for a static station."""
-        # Unique ID for static stations: the station name from API
-        unique_id = station.name
-
-        # Check if already configured
-        for entry in self.hass.config_entries.async_entries(DOMAIN):
-            for subentry in entry.subentries.values():
-                if subentry.unique_id == unique_id:
-                    return self.async_abort(reason="already_configured")
-
-        name = custom_name or STATION_NAME_FORMAT.format(
-            city=station.city.capitalize(),
-            station=station.name,
-        )
-
-        LOGGER.debug(
-            "Creating static station entry: name=%s, station=%s, unique_id=%s",
-            name,
-            station.name,
-            unique_id,
-        )
-
-        return self.async_create_entry(
-            title=name,
-            data={
-                CONF_NAME: name,
-                CONF_STATION_TYPE: STATION_TYPE_STATIC,
-                CONF_STATION_NAME: station.name,
-            },
-            unique_id=unique_id,
         )

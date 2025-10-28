@@ -17,11 +17,13 @@
           "title": "Add measuring station",
           "description": "How do you want to select a measuring station?",
           "menu_options": {
-            "map": "Select nearest station from point on the map",
+            "map": "Select a point on the map",
             "station_name": "Select station from a list"
           }
         },
         "map": {
+          "title": "Select point on the map",
+          "description": "Select a point on the map to always get the closest measuring station to that location",
           "data": {
             "location": "Location",
             "name": "Station name"
@@ -32,6 +34,8 @@
           }
         },
         "station_name": {
+          "title": "Select station from the list",
+          "description": "Select a measuring station from the list",
           "data": {
             "station_name": "Measuring station name",
             "name": "Station name"
