@@ -60,6 +60,4 @@ Coordinator should not rely on API response structure. Instead, transform data i
 
 ## Notes
 
-When you make changes, add features or fix bugs, ensure to update these instructions accordingly. Do not create new versions of this file; just edit this one.
-
 If anything here is unclear (e.g., adding a new platform beyond sensors, or debugging with `debugpy`), tell me what you want to do and I’ll expand these instructions.
