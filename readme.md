@@ -48,19 +48,23 @@ If it doesn't work, adding this repository to HACS manually by adding this URL:
 
 This integration is configurable via UI. On **Devices and Services** page, click **Add Integration** and search for **LUN Misto Air**.
 
-<img width="419" alt="Options to select measuring station" src="https://github.com/user-attachments/assets/c396de2e-1cd3-4bd9-b132-1ae14072f033">
+<img width="100%" alt="Integration page" src="https://github.com/user-attachments/assets/33c328b7-2831-44f7-8084-6d74d72e1c9e" />
 
-You can select measuring station by choosing the point on the map. The integration will automatically fetch the data from the nearest station.
+This integration supports subentries, so you can setup multiple stations for a single configurations.
 
-<img width="388" alt="map" src="https://github.com/user-attachments/assets/08d97907-e656-4cff-9eb1-577552a6c1e0">
+<img width="405" height="266" alt="Selecting stations" src="https://github.com/user-attachments/assets/27a65b8f-f1ab-46af-95c0-23a0b5fb07a3" />
+
+You can select measuring station by choosing the point on the map. The integration will be automatically finding the nearest station to specified location on every update:
+
+<img width="610" height="832" alt="Station from the map" src="https://github.com/user-attachments/assets/eb8e50f1-308f-446e-b167-75696d2e9346" />
 
 You can also find your station on [LUN Misto website][lun-misto-air]. Select the stations with the same name in the list:
 
-<img width="452" alt="number" src="https://github.com/user-attachments/assets/5a7acc0c-2c4e-4e09-84ad-4756e287b7a9">
+<img width="430" height="404" alt="Station from the list" src="https://github.com/user-attachments/assets/68038068-753e-49ae-bd4e-42e8b34a1cd3" />
 
 The integration will create a sensor for each of the available metrics:
 
-<img width="329" alt="metrics" src="https://github.com/user-attachments/assets/610e3d71-f1ac-4dde-bd4c-328fd47d0aa9" />
+<img width="326" height="477" alt="Provided sensors" src="https://github.com/user-attachments/assets/67dec558-3509-4307-9ebd-d6284861cad6" />
 
 ## Translations
 
