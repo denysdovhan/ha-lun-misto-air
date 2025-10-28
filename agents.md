@@ -97,6 +97,8 @@ This project is developed from Devcontainer described in `.devcontainer.json` fi
 
 Use code style described in `.ruff.toml` configuration. Standard Python. 2-spaces indentation.
 
+Never import modules in functions. All imports must be located on top of the file.
+
 ## Translations
 
 - Translations: copy `translations/en.json` to add locales; translate values only where appropriate per HA guidelines.
