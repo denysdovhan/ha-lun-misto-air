@@ -23,18 +23,22 @@
         },
         "map": {
           "data": {
-            "location": "Location"
+            "location": "Location",
+            "name": "Station name"
           },
           "data_description": {
-            "location": "Select a location to get the closest measuring station"
+            "location": "Select a point on the map to always get the closest measuring station to that location",
+            "name": "Enter a name for this station"
           }
         },
         "station_name": {
           "data": {
-            "station_name": "Measuring station name"
+            "station_name": "Measuring station name",
+            "name": "Station name"
           },
           "data_description": {
-            "station_name": "You can find the measuring station name at: https://misto.lun.ua/air"
+            "station_name": "You can find the measuring station name at: https://misto.lun.ua/air",
+            "name": "Enter a name for this station"
           }
         }
       },
@@ -53,7 +57,7 @@
   },
   "device": {
     "lun_misto_air": {
-      "name": "LUN Air {city} {station_name}"
+      "name": "{name}"
     }
   },
   "entity": {
