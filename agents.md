@@ -121,8 +121,16 @@ Fetch these links to get more informations about specific Home Assistant APIs di
 - Data Entry Flow: https://developers.home-assistant.io/docs/data_entry_flow_index
 - Manifest: https://developers.home-assistant.io/docs/creating_integration_manifest
 
-## Notes
+## Important directives
 
-If anything here is unclear (e.g., adding a new platform beyond sensors, or debugging with `debugpy`), tell me what you want to do and I’ll expand these instructions.
+<important>
+If anything here is unclear (e.g., adding a new platform beyond sensors and calendar, or debugging with `debugpy`), tell me what you want to do and I'll expand these instructions.
+</important>
 
-If you struggle to find a solution, suggest to add logger statements and ask for output to get more context and understant the flow better. When logger output is provided, analyze it to understand what is going on.
+<important>
+If you struggle to find a solution, suggest to add logger statements and ask for output to get more context and understand the flow better. When logger output is provided, analyze it to understand what is going on.
+</important>
+
+<important>
+When updating this file (`agents.md`), DON'T CHANGE the structure, formatting or style of the document. Just add relevant information, without restructuring: add list items, new sections, etc. NEVER REMOVE tags, like <important> or <instruction>.
+</important>
