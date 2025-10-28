@@ -9,7 +9,6 @@ from homeassistant.components.sensor import (
     SensorEntityDescription,
 )
 from homeassistant.components.sensor.const import SensorDeviceClass, SensorStateClass
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     ATTR_LATITUDE,
     ATTR_LONGITUDE,
@@ -30,6 +29,7 @@ from .const import (
     SUGGESTED_PRECISION,
 )
 from .coordinator import LUNMistoAirCoordinator
+from .data import LUNMistoAirConfigEntry
 from .entity import LUNMistoAirEntity
 
 LOGGER = logging.getLogger(__name__)
@@ -114,12 +114,14 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
 
 async def async_setup_entry(
     hass: HomeAssistant,  # noqa: ARG001
-    config_entry: ConfigEntry,
+    config_entry: LUNMistoAirConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Lun Misto Air sensor platform."""
     # Get all coordinators from runtime_data (one per subentry)
-    coordinators: dict[str, LUNMistoAirCoordinator] = config_entry.runtime_data
+    coordinators: dict[str, LUNMistoAirCoordinator] = (
+        config_entry.runtime_data.coordinators
+    )
 
     for subentry_id, coordinator in coordinators.items():
         async_add_entities(
@@ -146,8 +148,7 @@ class LUNMistoAirSensor(LUNMistoAirEntity, SensorEntity):
         super().__init__(coordinator, description)
         self.entity_description = description
         self._attr_unique_id = (
-            f"{coordinator.config_subentry.subentry_id}-"
-            f"{self.entity_description.key}"
+            f"{coordinator.config_subentry.subentry_id}-{self.entity_description.key}"
         )
 
     @property
