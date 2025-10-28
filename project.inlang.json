@@ -1,6 +1,7 @@
 {
-  "sourceLanguageTag": "en",
-  "languageTags": ["en", "uk"],
+  "$schema": "https://inlang.com/schema/project-settings",
+  "baseLocale": "en",
+  "locales": ["en", "uk"],
   "modules": [
     "https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-empty-pattern/dist/index.js",
     "https://cdn.jsdelivr.net/npm/@inlang/message-lint-rule-identical-pattern/dist/index.js",
