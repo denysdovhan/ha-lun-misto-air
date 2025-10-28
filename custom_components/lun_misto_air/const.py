@@ -16,7 +16,7 @@ STATION_TYPE_DYNAMIC: Final = "dynamic"
 # Subentry types
 SUBENTRY_TYPE_STATION: Final = "station"
 
-# Station name format
+# Format strings
 STATION_NAME_FORMAT: Final = "{city} ({station})"
 
 # Attributes

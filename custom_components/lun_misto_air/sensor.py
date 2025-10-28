@@ -23,7 +23,12 @@ from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
 from .api import LUNMistoAirStation
-from .const import ATTR_CITY, ATTR_STATION_NAME, ATTR_UPDATED, SUGGESTED_PRECISION
+from .const import (
+    ATTR_CITY,
+    ATTR_STATION_NAME,
+    ATTR_UPDATED,
+    SUGGESTED_PRECISION,
+)
 from .coordinator import LUNMistoAirCoordinator
 from .entity import LUNMistoAirEntity
 
@@ -141,7 +146,8 @@ class LUNMistoAirSensor(LUNMistoAirEntity, SensorEntity):
         super().__init__(coordinator, description)
         self.entity_description = description
         self._attr_unique_id = (
-            f"{coordinator.config_subentry.subentry_id}-{description.key}"
+            f"{coordinator.config_subentry.subentry_id}-"
+            f"{self.entity_description.key}"
         )
 
     @property
@@ -149,7 +155,7 @@ class LUNMistoAirSensor(LUNMistoAirEntity, SensorEntity):
         """Return the extra state attributes."""
         return {
             ATTR_STATION_NAME: self.coordinator.data.name,
-            ATTR_CITY: self.coordinator.data.city,
+            ATTR_CITY: self.coordinator.data.city.capitalize(),
             ATTR_UPDATED: self.coordinator.data.updated,
             ATTR_LATITUDE: self.coordinator.data.latitude,
             ATTR_LONGITUDE: self.coordinator.data.longitude,

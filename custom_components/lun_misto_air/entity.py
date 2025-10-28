@@ -23,7 +23,6 @@ class LUNMistoAirEntity(CoordinatorEntity[LUNMistoAirCoordinator]):
         subentry_data = self.coordinator.config_subentry.data
         city = self.coordinator.data.city.capitalize()
         station_name = self.coordinator.data.name
-        identifier = self.coordinator.config_subentry.unique_id or "unknown"
 
         # Device name: user-provided name or fallback to "{city} {station}"
         # CONF_NAME is always used when present (for both static and dynamic)
@@ -34,7 +33,7 @@ class LUNMistoAirEntity(CoordinatorEntity[LUNMistoAirCoordinator]):
 
         LOGGER.debug(
             "Device info for %s: name=%s (from CONF_NAME=%s), city=%s, station=%s",
-            identifier,
+            self.coordinator.config_subentry.subentry_id,
             name,
             subentry_data.get(CONF_NAME),
             city,
@@ -42,7 +41,7 @@ class LUNMistoAirEntity(CoordinatorEntity[LUNMistoAirCoordinator]):
         )
 
         return DeviceInfo(
-            identifiers={(DOMAIN, identifier)},
+            identifiers={(DOMAIN, self.coordinator.config_subentry.subentry_id)},
             name=name,
             manufacturer="LUN",
             entry_type=DeviceEntryType.SERVICE,

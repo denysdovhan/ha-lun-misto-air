@@ -61,7 +61,7 @@ def get_stations_options(stations: list[LUNMistoAirStation]) -> list[SelectOptio
 class LUNMistoAirConfigFlow(ConfigFlow, domain=DOMAIN):
     """Config flow for LUN Misto Air integration."""
 
-    VERSION = 2
+    VERSION = 3
 
     def __init__(self) -> None:
         """Initialize config flow."""
@@ -118,7 +118,7 @@ class StationFlowHandler(ConfigSubentryFlow):
             longitude = user_input[CONF_LOCATION][CONF_LONGITUDE]
 
             # Unique ID for dynamic stations: based on coordinates
-            unique_id = f"dynamic_{round(latitude, 6)}_{round(longitude, 6)}"
+            unique_id = f"{name}"
 
             LOGGER.debug(
                 "Creating dynamic station entry: name=%s, unique_id=%s, lat=%s, lon=%s",

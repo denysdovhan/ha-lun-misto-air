@@ -57,7 +57,7 @@
   },
   "device": {
     "lun_misto_air": {
-      "name": "{name}"
+      "name": "ЛУН Місто Air {name}"
     }
   },
   "entity": {
