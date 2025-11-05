@@ -64,14 +64,6 @@ The integration will create a sensor for each of the available metrics:
 
 <img width="326" height="477" alt="Provided sensors" src="./media/sensors.png" />
 
-## Translations
-
-Help us translate this integration into more languages.
-
-[**🌐 Translate via Inlang**](https://inlang.com/editor/github.com/denysdovhan/ha-lun-misto-air?ref=badge)
-
-Translation files live in `custom_components/lun_misto_air/translations/` (e.g., `en.json`, `uk.json`).
-
 ## Development
 
 Want to contribute to the project?
