@@ -29,6 +29,3 @@ jobs:
         uses: hacs/action@main
         with:
           category: integration
-          # FIXME: Remove this ignore when this PR is merged:
-          # https://github.com/home-assistant/brands/pull/5719
-          ignore: brands
