@@ -4,6 +4,9 @@ __pycache__
 *.egg-info
 */build/*
 */dist/*
+node_modules
+.venv
+.cache
 
 # misc
 .coverage
