@@ -11,23 +11,30 @@ This repository is a Home Assistant custom integration providing air quality dat
 
 ### Code structure
 
-- `translations` - folder containing translations.
-- `__init__.py` - init file of the integration, creates entries, runs migrations from older to newer versions, etc.
-- `api.py` - a file containing an API class for fetching data. Should be Home Assistant agnostinc, since in the future it's planned to move it to the separate package.
-- `config_flow.py` - a file describing a flow to create new entries/subentries.
-- `const.py` - a file containing constants used throught the project. Use `homeassistant.const` for commonly used constants.
-- `coordinator.py` - a data fetching coordinator. Fetched data from the API, transform it to the proper format and passes them to sensors.
-- `entity.py` - an entity descriptor that is used as a template when creating sensors. Contains important `DeviceInfo` joining different sensors into a single device.
-- `migrations.py` - a file containing migrations between different versions specified in `config_flow.py`.
-- `manifest.json` - a file declaring an integration manifest.
-- `sensor.py` - declares sensors using entity descriptors. Implements sensor implementation.
-- `data.py` - runtime data module. Defines `LUNMistoAirRuntimeData` dataclass that stores the shared API client and a mapping of coordinators per subentry (`coordinators: dict[subentry_id, LUNMistoAirCoordinator]`). Also defines a typed config entry alias `type LUNMistoAirConfigEntry = ConfigEntry[LUNMistoAirRuntimeData]`. Access this via `entry.runtime_data`.
-
-<instruction>Fill in by LLM assistant memory</instruction>
+- `translations` — JSON translations per locale.
+- `__init__.py` — sets up the integration, creates per-station coordinators and stores them in `entry.runtime_data.coordinators`, runs migrations v1→v2→v3, forwards sensor platform.
+- `api.py` — HTTP client and `LUNMistoAirStation` dataclass, no HA dependencies.
+- `config_flow.py` — config/options flows, creates station subentries (static/dynamic).
+- `const.py` — constants and defaults; check here before adding new strings.
+- `coordinator.py` — `LUNMistoAirCoordinator` fetches data for a station (static by name or nearest dynamic) and surfaces a `LUNMistoAirStation` in `data`.
+- `entity.py` — base entity descriptors/device info for sensors; ensures unique IDs with `{subentry_id}-{sensor_key}`.
+- `migrations.py` — data migrations; keep in sync with `CONFIG_ENTRY_VERSION` in `config_flow.py`.
+- `manifest.json` — HA manifest.
+- `sensor.py` — sensor entities bound to coordinators via `config_subentry_id`.
+- `data.py` — runtime container (`LUNMistoAirRuntimeData`) and typed entry alias.
+- `diagnostics.py` — exposes `async_get_config_entry_diagnostics` with entry metadata, subentries, coordinators, and station snapshots for HA diagnostics download.
 
 ### Using Coordinator to Fetch Data
 
 We use one DataUpdateCoordinator per station subentry (static or dynamic) to fetch data from the LUN Misto Air API. Coordinators are created in `__init__.py` during setup and stored in `entry.runtime_data.coordinators` keyed by `subentry_id`. Platforms (e.g., `sensor.py`) read from this mapping and pass `config_subentry_id=subentry_id` when adding entities so entities bind to the right coordinator.
+
+The coordinator:
+
+- Receives the shared API client and subentry metadata (dependency injection).
+- Fetches measurements for the configured station; picks dynamic vs static source.
+- Computes derived values (AQI, last_updated, attribution) so platforms read ready values.
+- Prefer logging and returning `None`/fallbacks instead of raising; add debug logs when behavior is unclear.
+- Keep coordinator instances in `entry.runtime_data.coordinators`; avoid globals/singletons.
 
 Documentation: https://developers.home-assistant.io/docs/integration_fetching_data
 
@@ -55,7 +62,12 @@ This pattern keeps setup logic centralized, avoids globals, and makes platform c
 
 ## Workflow
 
-<instruction>Fill in by LLM assistant in memory</instruction>
+- Python deps defined in `pyproject.toml`, locked in `uv.lock`; manage env with `uv`.
+- CI (`lint.yml`, `validate.yml`) installs uv via `astral-sh/setup-uv` and runs tools with `uv run`.
+- Use `scripts/bootstrap` for fresh setup (installs uv via pipx if missing, syncs deps, installs pre-commit).
+- Prefer running tooling via `uv run <tool>` to match the locked environment.
+
+<instruction>Keep this guide synced when tooling, workflows, or runtime data structures change.</instruction>
 
 This project is developed from Devcontainer described in `.devcontainer.json` file.
 
@@ -82,6 +94,7 @@ This project is developed from Devcontainer described in `.devcontainer.json` fi
 
 ### Develompent Scripts
 
+- `scripts/bootstrap` - sets up development environment.
 - `scripts/setup` - installs dependencies and installs pre-commit.
 - `scripts/develop` - starts a development Home Assistant instance.
 - `scripts/lint` - runs a ruff linter/formatter.
@@ -90,12 +103,13 @@ This project is developed from Devcontainer described in `.devcontainer.json` fi
 
 - Ask for clarification when requirements are ambiguous; surface 2–3 options when trade-offs matter.
 - Update documentation and related rules when introducing new patterns or services.
-- When unsure or need to make a significant decision ASK the user for guidance
-- Do not commit anything. Leave commits to be done by a developer.
+- When unsure or need to make a significant decision ASK the user for guidance.
+- Each time you make changes to Python code, run `scripts/lint` to check for errors and formatting issues. Fix any issues reported by the linter.
+- Commit only when directly asked to do so. Write descriptive commit messages.
 
 ## Code Style
 
-Use code style described in `.ruff.toml` configuration. Standard Python. 2-spaces indentation.
+Use code style described in `pyproject.toml` configuration. Standard Python. 2-spaces indentation.
 
 Never import modules in functions. All imports must be located on top of the file.
 
@@ -124,6 +138,10 @@ Fetch these links to get more informations about specific Home Assistant APIs di
 ## Important directives
 
 <important>
+In all interactions and commit messages, be extremely concise and sacrifice grammar for the sake of concision.
+</important>
+
+<important>
 If anything here is unclear (e.g., adding a new platform beyond sensors and calendar, or debugging with `debugpy`), tell me what you want to do and I'll expand these instructions.
 </important>
 
@@ -133,4 +151,8 @@ If you struggle to find a solution, suggest to add logger statements and ask for
 
 <important>
 When updating this file (`agents.md`), DON'T CHANGE the structure, formatting or style of the document. Just add relevant information, without restructuring: add list items, new sections, etc. NEVER REMOVE tags, like <important> or <instruction>.
+</important>
+
+<important>
+At the end of each plan, give me a list of unresolved questions to answer, if any. Make the questions extremely concise. Sacrifice grammar for the sake of concision.
 </important>
