@@ -41,7 +41,7 @@
             "name": "Station name"
           },
           "data_description": {
-            "station_name": "You can find the measuring station name at: https://misto.lun.ua/air",
+            "station_name": "You can find the measuring station name at: {lun_url}",
             "name": "Enter a name for this station"
           }
         }

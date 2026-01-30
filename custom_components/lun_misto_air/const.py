@@ -4,6 +4,7 @@ from typing import Final
 
 DOMAIN: Final = "lun_misto_air"
 NAME: Final = "LUN Misto Air"
+LUN_MISTO_AIR_URL: Final = "https://misto.lun.ua/air"
 
 # Configuration options
 CONF_STATION_NAME: Final = "station_name"
