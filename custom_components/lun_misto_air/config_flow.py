@@ -28,6 +28,7 @@ from .const import (
     CONF_STATION_NAME,
     CONF_STATION_TYPE,
     DOMAIN,
+    LUN_MISTO_AIR_URL,
     NAME,
     STATION_NAME_FORMAT,
     STATION_TYPE_DYNAMIC,
@@ -233,4 +234,5 @@ class StationFlowHandler(ConfigSubentryFlow):
                     ),
                 },
             ),
+            description_placeholders={"lun_url": LUN_MISTO_AIR_URL},
         )
