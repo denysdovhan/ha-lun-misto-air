@@ -12,12 +12,13 @@
 [![Buy Me A Coffee][buymeacoffee-image]][buymeacoffee-url]
 [![Twitter][twitter-image]][twitter-url]
 
+> [!NOTE]
 > An integration for air quality monitoring by [LUN Misto][lun-misto].
 
-This integration for [Home Assistant][home-assistant] provides information about air quality metrics by [LUN Misto][lun-misto]: Air Quality Index (AQI), PM2.5, PM10, PM1, temperature, humidity and pressure.
+> [!IMPORTANT]
+> This is not affiliated with [LUN Misto][lun-misto] in any way. This integration is developed by an individual. Information may vary from their official website.
 
-> [!NOTE]
-> This is not affiliated with [LUN][lun-misto] in any way. This integration is developed by an individual. Information may vary from their official website.
+This integration for [Home Assistant][home-assistant] provides information about air quality metrics by [LUN Misto][lun-misto]: Air Quality Index (AQI), PM2.5, PM10, PM1, temperature, humidity, and pressure.
 
 ## Sponsorship
 
@@ -34,41 +35,41 @@ The quickest way to install this integration is via [HACS][hacs-url] by clicking
 
 [![Add to HACS via My Home Assistant][hacs-install-image]][hasc-install-url]
 
-If it doesn't work, adding this repository to HACS manually by adding this URL:
+If it doesn't work, add this repository to HACS manually by using this URL:
 
 1. Visit **HACS** → **Integrations** → **...** (in the top right) → **Custom repositories**
-1. Click **Add**
-1. Paste `https://github.com/denysdovhan/ha-lun-misto-air` into the **URL** field
-1. Chose **Integration** as a **Category**
-1. **LUN Misto Air** will appear in the list of available integrations. Install it normally.
+2. Click **Add**
+3. Paste `https://github.com/denysdovhan/ha-lun-misto-air` into the **URL** field
+4. Choose **Integration** as the **Category**
+5. **LUN Misto Air** will appear in the list of available integrations. Install it normally.
 
 ## Usage
 
-This integration is configurable via UI. On **Devices and Services** page, click **Add Integration** and search for **LUN Misto Air**.
+This integration is configurable via UI. On the **Devices and Services** page, click **Add Integration** and search for **LUN Misto Air**.
 
-<img width="100%" alt="Integration page" src="./media/integration-page.png" />
+![Integration page](./media/integration-page.png)
 
-This integration supports subentries, so you can setup multiple stations for a single configurations.
+This integration supports subentries, so you can set up multiple stations for a single configuration.
 
-<img width="405" height="266" alt="Selecting stations" src="./media/station-menu.png" />
+![Selecting stations](./media/station-menu.png)
 
-You can select measuring station by choosing the point on the map. The integration will be automatically finding the nearest station to specified location on every update:
+You can select a measuring station by choosing a point on the map. The integration will automatically find the nearest station to the specified location on every update:
 
-<img width="610" height="832" alt="Station from the map" src="./media/map.png" />
+![Station from the map](./media/map.png)
 
-You can also find your station on [LUN Misto website][lun-misto-air]. Select the stations with the same name in the list:
+You can also find your station on the [LUN Misto website][lun-misto-air]. Select the station with the same name in the list:
 
-<img width="430" height="404" alt="Station from the list" src="./media/list.png" />
+![Station from the list](./media/list.png)
 
-The integration will create a sensor for each of the available metrics:
+The integration creates a sensor for each of the available metrics:
 
-<img width="326" height="477" alt="Provided sensors" src="./media/sensors.png" />
+![Provided sensors](./media/sensors.png)
 
 ## Development
 
 Want to contribute to the project?
 
-First, thanks! Check [contributing guideline](./CONTRIBUTING.md) for more information.
+First, thanks! Check the [contributing guideline](./CONTRIBUTING.md) for more information.
 
 ## License
 
@@ -81,7 +82,7 @@ MIT © [Denys Dovhan][denysdovhan]
 [gh-downloads-url]: https://github.com/denysdovhan/ha-lun-misto-air/releases
 [gh-downloads-image]: https://img.shields.io/github/downloads/denysdovhan/ha-lun-misto-air/total?style=flat-square
 [hacs-url]: https://github.com/hacs/integration
-[hacs-image]: https://img.shields.io/badge/hacs-custom-orange.svg?style=flat-square
+[hacs-image]: https://img.shields.io/badge/hacs-default-orange.svg?style=flat-square
 [gh-sponsors-url]: https://github.com/sponsors/denysdovhan
 [gh-sponsors-image]: https://img.shields.io/github/sponsors/denysdovhan?style=flat-square
 [buymeacoffee-url]: https://buymeacoffee.com/denysdovhan
