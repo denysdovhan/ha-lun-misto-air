@@ -28,3 +28,11 @@ ATTR_UPDATED: Final = "updated"
 # Consts
 UPDATE_INTERVAL: Final = 10
 SUGGESTED_PRECISION: Final = 3
+
+# Plausible ranges used to detect offline/erroneous sensor readings.
+# The API reports 0 (or physically impossible values) when a sensor is
+# offline or missing, instead of omitting the field.
+MIN_PRESSURE_PA: Final = 80000
+MAX_PRESSURE_PA: Final = 110000
+MIN_HUMIDITY: Final = 0
+MAX_HUMIDITY: Final = 100
