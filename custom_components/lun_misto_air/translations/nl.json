@@ -18,7 +18,6 @@
           "description": "Hoe wil je een meetstation selecteren?",
           "menu_options": {
             "map": "Selecteer een punt op de kaart",
-            "home": "Gebruik de thuislocatie van Home Assistant",
             "station_name": "Selecteer een station uit een lijst"
           }
         },
@@ -31,16 +30,6 @@
           },
           "data_description": {
             "location": "Selecteer een punt op de kaart om altijd het dichtstbijzijnde meetstation bij die locatie te krijgen",
-            "name": "Voer een naam in voor dit station"
-          }
-        },
-        "home": {
-          "title": "Gebruik de thuislocatie van Home Assistant",
-          "description": "Krijg altijd het dichtstbijzijnde meetstation bij de thuislocatie die in Home Assistant is geconfigureerd",
-          "data": {
-            "name": "Stationsnaam"
-          },
-          "data_description": {
             "name": "Voer een naam in voor dit station"
           }
         },
