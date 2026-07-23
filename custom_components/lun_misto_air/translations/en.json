@@ -198,6 +198,26 @@
             "name": "Longitude"
           }
         }
+      },
+      "station": {
+        "name": "Station",
+        "state_attributes": {
+          "city": {
+            "name": "City"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "updated": {
+            "name": "Last updated"
+          },
+          "latitude": {
+            "name": "Latitude"
+          },
+          "longitude": {
+            "name": "Longitude"
+          }
+        }
       }
     }
   }

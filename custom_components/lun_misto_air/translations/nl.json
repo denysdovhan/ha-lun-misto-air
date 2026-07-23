@@ -198,6 +198,26 @@
             "name": "Lengtegraad"
           }
         }
+      },
+      "station": {
+        "name": "Station",
+        "state_attributes": {
+          "city": {
+            "name": "Stad"
+          },
+          "station_name": {
+            "name": "Station"
+          },
+          "updated": {
+            "name": "Laatst bijgewerkt"
+          },
+          "latitude": {
+            "name": "Breedtegraad"
+          },
+          "longitude": {
+            "name": "Lengtegraad"
+          }
+        }
       }
     }
   }
