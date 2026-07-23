@@ -5,15 +5,10 @@ description = "Home Assistant custom component: LUN Misto Air"
 readme = "readme.md"
 requires-python = ">=3.13.2"
 authors = [{ name = "Denys Dovhan", email = "denysdovhan@gmail.com" }]
-dependencies = [
-  "homeassistant==2026.2.3",
-]
+dependencies = ["homeassistant==2026.2.3"]
 
 [dependency-groups]
-dev = [
-  "pre-commit>=4.6.0",
-  "ruff==0.15.20",
-]
+dev = ["pre-commit>=4.6.0", "ruff==0.15.20"]
 
 [tool.ruff]
 target-version = "py313"
@@ -21,13 +16,13 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
-    "D203",    # no-blank-line-before-class (incompatible with formatter)
-    "D212",    # multi-line-summary-first-line (incompatible with formatter)
-    "COM812",  # incompatible with formatter
-    "ISC001",  # incompatible with formatter
-    "FIX002",  # Line contains TODO, consider resolving an issue
-    "TD003",   # Missing issue link on the line following this TODO
+  "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
+  "D203", # no-blank-line-before-class (incompatible with formatter)
+  "D212", # multi-line-summary-first-line (incompatible with formatter)
+  "COM812", # incompatible with formatter
+  "ISC001", # incompatible with formatter
+  "FIX002", # Line contains TODO, consider resolving an issue
+  "TD003", # Missing issue link on the line following this TODO
 ]
 
 [tool.ruff.lint.flake8-pytest-style]
