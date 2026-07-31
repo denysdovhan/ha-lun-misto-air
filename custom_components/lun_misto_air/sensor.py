@@ -14,6 +14,7 @@ from homeassistant.const import (
     ATTR_LONGITUDE,
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
     PERCENTAGE,
+    EntityCategory,
     UnitOfPressure,
     UnitOfTemperature,
 )
@@ -26,6 +27,7 @@ from .const import (
     ATTR_CITY,
     ATTR_STATION_NAME,
     ATTR_UPDATED,
+    STATION_NAME_FORMAT,
     SUGGESTED_PRECISION,
 )
 from .coordinator import LUNMistoAirCoordinator
@@ -108,6 +110,16 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         suggested_display_precision=1,
         native_unit_of_measurement=UnitOfPressure.HPA,
         value_fn=lambda station: station.pressure / 100,
+    ),
+    LUNMistoAirSensorDescription(
+        key="station",
+        translation_key="station",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda station: STATION_NAME_FORMAT.format(
+            city=station.city.capitalize(),
+            station=station.name,
+        ),
+        available_fn=lambda station: station.name is not None,
     ),
 )
 

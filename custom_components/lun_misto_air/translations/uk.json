@@ -198,6 +198,26 @@
             "name": "Довгота"
           }
         }
+      },
+      "station": {
+        "name": "Станція",
+        "state_attributes": {
+          "city": {
+            "name": "Місто"
+          },
+          "station_name": {
+            "name": "Станція"
+          },
+          "updated": {
+            "name": "Востаннє оновлено"
+          },
+          "latitude": {
+            "name": "Широта"
+          },
+          "longitude": {
+            "name": "Довгота"
+          }
+        }
       }
     }
   }
