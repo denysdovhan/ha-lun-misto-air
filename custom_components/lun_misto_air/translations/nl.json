@@ -3,60 +3,60 @@
   "config": {
     "step": {
       "user": {
-        "description": "Set up LUN Misto Air to integrate air quality monitoring stations."
+        "description": "Stel LUN Misto Air in om luchtkwaliteitsmeetstations te integreren."
       }
     },
     "abort": {
-      "already_configured": "Only one LUN Misto Air integration can be configured."
+      "already_configured": "Er kan slechts één LUN Misto Air-integratie worden geconfigureerd."
     }
   },
   "config_subentries": {
     "station": {
       "step": {
         "user": {
-          "title": "Add measuring station",
-          "description": "How do you want to select a measuring station?",
+          "title": "Meetstation toevoegen",
+          "description": "Hoe wil je een meetstation selecteren?",
           "menu_options": {
-            "map": "Select a point on the map",
-            "station_name": "Select station from a list"
+            "map": "Selecteer een punt op de kaart",
+            "station_name": "Selecteer een station uit een lijst"
           }
         },
         "map": {
-          "title": "Select point on the map",
-          "description": "Select a point on the map to always get the closest measuring station to that location",
+          "title": "Selecteer een punt op de kaart",
+          "description": "Selecteer een punt op de kaart om altijd het dichtstbijzijnde meetstation bij die locatie te krijgen",
           "data": {
-            "location": "Location",
-            "name": "Station name"
+            "location": "Locatie",
+            "name": "Stationsnaam"
           },
           "data_description": {
-            "location": "Select a point on the map to always get the closest measuring station to that location",
-            "name": "Enter a name for this station"
+            "location": "Selecteer een punt op de kaart om altijd het dichtstbijzijnde meetstation bij die locatie te krijgen",
+            "name": "Voer een naam in voor dit station"
           }
         },
         "station_name": {
-          "title": "Select station from the list",
-          "description": "Select a measuring station from the list",
+          "title": "Selecteer een station uit de lijst",
+          "description": "Selecteer een meetstation uit de lijst",
           "data": {
-            "station_name": "Measuring station name",
-            "name": "Station name"
+            "station_name": "Naam van het meetstation",
+            "name": "Stationsnaam"
           },
           "data_description": {
-            "station_name": "You can find the measuring station name at: {lun_url}",
-            "name": "Enter a name for this station"
+            "station_name": "Je kunt de naam van het meetstation vinden op: {lun_url}",
+            "name": "Voer een naam in voor dit station"
           }
         }
       },
       "error": {
-        "no_stations": "No stations found",
-        "cannot_find_station": "Cannot find the closest station"
+        "no_stations": "Geen stations gevonden",
+        "cannot_find_station": "Kan het dichtstbijzijnde station niet vinden"
       },
       "abort": {
-        "already_configured": "This station is already configured."
+        "already_configured": "Dit station is al geconfigureerd."
       },
       "initiate_flow": {
-        "user": "Add measuring station"
+        "user": "Meetstation toevoegen"
       },
-      "entry_type": "Measuring station"
+      "entry_type": "Meetstation"
     }
   },
   "device": {
@@ -69,133 +69,133 @@
       "aqi": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
       "pm1": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
       "pm10": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
       "pm25": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
       "temperature": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
       "humidity": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
       "pressure": {
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       },
@@ -203,19 +203,19 @@
         "name": "Station",
         "state_attributes": {
           "city": {
-            "name": "City"
+            "name": "Stad"
           },
           "station_name": {
             "name": "Station"
           },
           "updated": {
-            "name": "Last updated"
+            "name": "Laatst bijgewerkt"
           },
           "latitude": {
-            "name": "Latitude"
+            "name": "Breedtegraad"
           },
           "longitude": {
-            "name": "Longitude"
+            "name": "Lengtegraad"
           }
         }
       }
