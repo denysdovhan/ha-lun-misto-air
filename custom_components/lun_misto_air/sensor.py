@@ -27,6 +27,10 @@ from .const import (
     ATTR_CITY,
     ATTR_STATION_NAME,
     ATTR_UPDATED,
+    MAX_HUMIDITY,
+    MAX_PRESSURE_PA,
+    MIN_HUMIDITY,
+    MIN_PRESSURE_PA,
     STATION_NAME_FORMAT,
     SUGGESTED_PRECISION,
 )
@@ -35,6 +39,21 @@ from .data import LUNMistoAirConfigEntry
 from .entity import LUNMistoAirEntity
 
 LOGGER = logging.getLogger(__name__)
+
+
+def _weather_block_offline(station: LUNMistoAirStation) -> bool:
+    """Return True when the whole weather block is offline (all zero)."""
+    return station.temperature == 0 and station.humidity == 0 and station.pressure == 0
+
+
+def _humidity_available(station: LUNMistoAirStation) -> bool:
+    """Return True when humidity is within a plausible range."""
+    return MIN_HUMIDITY < station.humidity <= MAX_HUMIDITY
+
+
+def _pressure_available(station: LUNMistoAirStation) -> bool:
+    """Return True when pressure is within a plausible range."""
+    return MIN_PRESSURE_PA <= station.pressure <= MAX_PRESSURE_PA
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -92,6 +111,7 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         suggested_display_precision=1,
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         value_fn=lambda station: station.temperature,
+        available_fn=lambda station: not _weather_block_offline(station),
     ),
     LUNMistoAirSensorDescription(
         key="humidity",
@@ -101,6 +121,7 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         suggested_display_precision=0,
         native_unit_of_measurement=PERCENTAGE,
         value_fn=lambda station: station.humidity,
+        available_fn=_humidity_available,
     ),
     LUNMistoAirSensorDescription(
         key="pressure",
@@ -110,6 +131,7 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         suggested_display_precision=1,
         native_unit_of_measurement=UnitOfPressure.HPA,
         value_fn=lambda station: station.pressure / 100,
+        available_fn=_pressure_available,
     ),
     LUNMistoAirSensorDescription(
         key="station",
