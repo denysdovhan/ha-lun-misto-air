@@ -89,10 +89,10 @@
 
 ## Інші інтеграції
 
-- [Aerial Danger](https://github.com/denysdovhan/ha-aerial-danger) — виявляє повідомлення про повітряні загрози для вибраних регіонів і місцевостей України.
-- [Check Weather](https://github.com/denysdovhan/ha-check-weather) — створює бінарний сенсор на основі прогнозу погоди на кілька наступних годин.
-- [Український гідрометеорологічний центр](https://github.com/denysdovhan/ha-ukr-hmc) — надає погодні, радіаційні й гідрологічні дані з meteo.gov.ua.
-- [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) — надає графіки планових відключень електроенергії, сенсори та календарі від Yasno.
+- 💥 [Aerial Danger](https://github.com/denysdovhan/ha-aerial-danger) — виявляє повідомлення про повітряні загрози для вибраних регіонів і місцевостей України.
+- ☁️ [Check Weather](https://github.com/denysdovhan/ha-check-weather) — створює бінарний сенсор на основі прогнозу погоди на кілька наступних годин.
+- 🌦️ [Український гідрометеорологічний центр](https://github.com/denysdovhan/ha-ukr-hmc) — надає погодні, радіаційні й гідрологічні дані з meteo.gov.ua.
+- ⚡️ [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) — надає графіки планових відключень електроенергії, сенсори та календарі від Yasno.
 
 ## Ліцензія
 
