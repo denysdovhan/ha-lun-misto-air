@@ -12,11 +12,11 @@ from homeassistant.components.sensor.const import SensorDeviceClass, SensorState
 from homeassistant.const import (
     ATTR_LATITUDE,
     ATTR_LONGITUDE,
-    CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
     PERCENTAGE,
-    EntityCategory,
     UnitOfPressure,
     UnitOfTemperature,
+    UnitOfDensity,
+)
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -31,7 +31,6 @@ from .const import (
     MAX_PRESSURE_PA,
     MIN_HUMIDITY,
     MIN_PRESSURE_PA,
-    STATION_NAME_FORMAT,
     SUGGESTED_PRECISION,
 )
 from .coordinator import LUNMistoAirCoordinator
@@ -79,7 +78,7 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         device_class=SensorDeviceClass.PM25,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=SUGGESTED_PRECISION,
-        native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        native_unit_of_measurement=UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
         value_fn=lambda station: station.avg_pm25,
         available_fn=lambda station: station.avg_pm25 is not None,
     ),
@@ -89,7 +88,7 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         device_class=SensorDeviceClass.PM10,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=SUGGESTED_PRECISION,
-        native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        native_unit_of_measurement=UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
         value_fn=lambda station: station.avg_pm100,
         available_fn=lambda station: station.avg_pm100 is not None,
     ),
@@ -99,7 +98,7 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         device_class=SensorDeviceClass.PM1,
         state_class=SensorStateClass.MEASUREMENT,
         suggested_display_precision=SUGGESTED_PRECISION,
-        native_unit_of_measurement=CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        native_unit_of_measurement=UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
         value_fn=lambda station: station.avg_pm10,
         available_fn=lambda station: station.avg_pm10 is not None,
     ),
@@ -132,16 +131,6 @@ SENSOR_TYPES: tuple[LUNMistoAirSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfPressure.HPA,
         value_fn=lambda station: station.pressure / 100,
         available_fn=_pressure_available,
-    ),
-    LUNMistoAirSensorDescription(
-        key="station",
-        translation_key="station",
-        entity_category=EntityCategory.DIAGNOSTIC,
-        value_fn=lambda station: STATION_NAME_FORMAT.format(
-            city=station.city.capitalize(),
-            station=station.name,
-        ),
-        available_fn=lambda station: station.name is not None,
     ),
 )
 
