@@ -17,7 +17,7 @@ from homeassistant.const import (
     UnitOfTemperature,
     UnitOfDensity,
 )
-)
+
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
