@@ -12,13 +12,12 @@ from homeassistant.components.sensor.const import SensorDeviceClass, SensorState
 from homeassistant.const import (
     ATTR_LATITUDE,
     ATTR_LONGITUDE,
-    EntityCategory,
     PERCENTAGE,
+    EntityCategory,
     UnitOfDensity,
     UnitOfPressure,
     UnitOfTemperature,
 )
-
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.typing import StateType
