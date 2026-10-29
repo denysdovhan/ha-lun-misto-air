@@ -94,6 +94,7 @@
 - ☀️ [Файна СЕС](https://github.com/denysdovhan/ha-fayna-ses) — надає дані про заряд батарей, потоки потужності та енергію станцій Файна СЕС.
 - 🌦️ [Український гідрометеорологічний центр](https://github.com/denysdovhan/ha-ukr-hmc) — надає погодні, радіаційні й гідрологічні дані з meteo.gov.ua.
 - ⚡️ [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) — надає графіки планових відключень електроенергії, сенсори та календарі від Yasno.
+- 💧 [Київводоканал](https://github.com/denysdovhan/ha-kyiv-vodokanal) — показники лічильників води, рахунки, платежі та тарифи.
 
 ## Ліцензія
 

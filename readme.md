@@ -94,6 +94,7 @@ First, thanks! Check the [contributing guideline](./CONTRIBUTING.md) for more in
 - ☀️ [Fayna SES](https://github.com/denysdovhan/ha-fayna-ses) — provides battery levels, power flows, and energy data from Fayna SES stations.
 - 🌦️ [Ukrainian Hydrometeorological Center](https://github.com/denysdovhan/ha-ukr-hmc) — provides weather, radiation, and hydrology data from meteo.gov.ua.
 - ⚡️ [Yasno Outages](https://github.com/denysdovhan/ha-yasno-outages) — provides planned electricity outage schedules, sensors, and calendars from Yasno.
+- 💧 [Kyiv Vodokanal](https://github.com/denysdovhan/ha-kyiv-vodokanal) — water meter readings, bills, payments, and tariffs.
 
 ## License
 
