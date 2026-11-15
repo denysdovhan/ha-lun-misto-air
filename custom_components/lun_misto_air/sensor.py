@@ -188,20 +188,32 @@ class LUNMistoAirSensor(LUNMistoAirEntity, SensorEntity):
     @property
     def extra_state_attributes(self) -> dict:
         """Return the extra state attributes."""
+        station = self.coordinator.data
+        if station is None:
+            return {}
         return {
-            ATTR_STATION_NAME: self.coordinator.data.name,
-            ATTR_CITY: self.coordinator.data.city.capitalize(),
-            ATTR_UPDATED: self.coordinator.data.updated,
-            ATTR_LATITUDE: self.coordinator.data.latitude,
-            ATTR_LONGITUDE: self.coordinator.data.longitude,
+            ATTR_STATION_NAME: station.name,
+            ATTR_CITY: station.city.capitalize(),
+            ATTR_UPDATED: station.updated,
+            ATTR_LATITUDE: station.latitude,
+            ATTR_LONGITUDE: station.longitude,
         }
 
     @property
     def available(self) -> bool:
         """Check if entity is available."""
-        return self.entity_description.available_fn(self.coordinator.data)
+        # Go unavailable when the station disappears instead of keeping stale data
+        station = self.coordinator.data
+        return (
+            super().available
+            and station is not None
+            and self.entity_description.available_fn(station)
+        )
 
     @property
     def native_value(self) -> StateType:
         """Return the state of the sensor."""
-        return self.entity_description.value_fn(self.coordinator.data)
+        station = self.coordinator.data
+        if station is None:
+            return None
+        return self.entity_description.value_fn(station)

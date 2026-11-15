@@ -6,6 +6,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from homeassistant.const import Platform
+from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import LUNMistoAirApi
@@ -51,9 +52,22 @@ async def async_setup_entry(hass: HomeAssistant, entry: LUNMistoAirConfigEntry) 
             continue
 
         coordinator = LUNMistoAirCoordinator(hass, api, entry, subentry)
-        await coordinator.async_config_entry_first_refresh()
+        # Don't fail the whole entry when one station is missing from the API
+        await coordinator.async_refresh()
+        if not coordinator.last_update_success:
+            LOGGER.warning(
+                "Station '%s' is not available yet: %s",
+                coordinator.station_name or subentry.title,
+                coordinator.last_exception,
+            )
 
         entry.runtime_data.coordinators[subentry.subentry_id] = coordinator
+
+    coordinators = entry.runtime_data.coordinators.values()
+    if coordinators and not any(c.last_update_success for c in coordinators):
+        # Every station failed, most likely the API is down: retry the entry
+        msg = "No LUN Misto Air station could be fetched"
+        raise ConfigEntryNotReady(msg)
 
     entry.async_on_unload(entry.add_update_listener(async_update_entry))
 
