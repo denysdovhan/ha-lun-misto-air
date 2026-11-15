@@ -21,14 +21,17 @@ class LUNMistoAirEntity(CoordinatorEntity[LUNMistoAirCoordinator]):
     def device_info(self) -> DeviceInfo:
         """Return device information about this entity."""
         subentry_data = self.coordinator.config_subentry.data
-        city = self.coordinator.data.city.capitalize()
-        station_name = self.coordinator.data.name
+        station = self.coordinator.data
+        # No data yet if the station was missing from the API at setup
+        city = station.city.capitalize() if station else ""
+        station_name = station.name if station else self.coordinator.station_name
 
         # Device name: user-provided name or fallback to "{city} {station}"
         # CONF_NAME is always used when present (for both static and dynamic)
-        name = subentry_data.get(CONF_NAME) or STATION_NAME_FORMAT.format(
-            city=city,
-            station=station_name,
+        name = subentry_data.get(CONF_NAME) or (
+            STATION_NAME_FORMAT.format(city=city, station=station_name)
+            if station
+            else self.coordinator.config_subentry.title
         )
 
         LOGGER.debug(

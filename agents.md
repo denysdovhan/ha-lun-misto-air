@@ -55,7 +55,8 @@ External API: `https://misto.lun.ua/api/v1/air/stations` (cloud polling). No aut
 - `type LUNMistoAirConfigEntry = ConfigEntry[LUNMistoAirRuntimeData]` is a typed alias used in function signatures for clarity.
 - Initialization happens in `__init__.py`:
   - Build the API client, set `entry.runtime_data = LUNMistoAirRuntimeData(api=api)`.
-  - For each station subentry, create a coordinator, refresh it, then store under `entry.runtime_data.coordinators[subentry_id]`.
+  - For each station subentry, create a coordinator, refresh it with `async_refresh()` (not `async_config_entry_first_refresh()`, so one station missing from the API does not fail the whole entry), then store under `entry.runtime_data.coordinators[subentry_id]`. Setup raises `ConfigEntryNotReady` only when every station failed.
+  - Entities must handle `coordinator.data is None` (a station that has not returned data yet): unavailable, no state, no attributes.
 - Platforms (e.g., `sensor.py`) retrieve coordinators via `config_entry.runtime_data.coordinators` and add entities with the appropriate `config_subentry_id`.
 
 This pattern keeps setup logic centralized, avoids globals, and makes platform code simple and testable.
